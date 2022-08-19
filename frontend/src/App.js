@@ -1,4 +1,5 @@
 import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
+import AddNewCategory from './components/Categories/AddNewCategory';
 import HomePage from './components/homepage/HomePage';
 import Navbar from './components/Navigation/Navbar';
 import Profile from './components/profile/Profile';
@@ -14,7 +15,7 @@ function App() {
       <Route path='/register' element={<Register />}/>
       <Route path='/profile' element={<Profile />}/>
       <Route path='/login' element={<Login />}/>
-
+    <Route path='/add-category' element={<AddNewCategory />}/>
       </Routes>
     </Router>
   );

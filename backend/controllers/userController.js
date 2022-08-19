@@ -4,7 +4,10 @@ const User = require("../models/UserModel");
 const validateMongdbId = require("../utils/validateMongodbID");
 const sendMail = require("@sendgrid/mail");
 const crypto = require("crypto");
+const cloudinaryUploadImg=require('../utils/cloudinary')
 sendMail.setApiKey(process.env.SEND_GRID_API_KEY);
+const fs=require('fs')
+
 //---------------------------------------
 //Register
 //---------------------------------------
@@ -353,8 +356,19 @@ const passwordResetCtrl = expressAsyncHandler(async (req, res) => {
 
 //profile photo upload------------------------
 const profilePhotoUploadCtrl=expressAsyncHandler(async(req,res)=>{
-  console.log(req.file);
-  res.json("file upload")
+  //find the login user by token
+  const {_id}=req.user
+  
+  const localPath=`public/images/profile/${req.file.filename}`
+  //upload to cloudinary
+ const imgUploaded= await cloudinaryUploadImg(localPath)
+
+ const foundUser=await User.findByIdAndUpdate(_id,{
+    profilePhoto:imgUploaded?.url,
+},{new:true})
+//remove the saved images
+fs.unlinkSync(localPath)
+  res.json(imgUploaded)
 })
 
 module.exports = {
