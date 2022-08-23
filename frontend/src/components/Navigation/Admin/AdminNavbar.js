@@ -39,7 +39,7 @@ const AdminNavbar = () => {
   const dispatch=useDispatch()
 
   return (
-    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-800">
+    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +58,7 @@ const AdminNavbar = () => {
                 </div>
                 <div className="flex-shrink-0 flex items-center">
                   {/* Logo */}
-                  <BookOpenIcon className="h-10 w-10 text-yellow-200" />
+                  <BookOpenIcon className="h-10 w-10 text-indigo-600" />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map(item => (
@@ -67,8 +67,8 @@ const AdminNavbar = () => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          ? "bg-indigo-900 text-white font-semibold"
+                          : "text-indigo-700 hover:bg-gray-900 hover:text-white font-semibold",
                         "px-3 py-2 rounded-md text-sm font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}

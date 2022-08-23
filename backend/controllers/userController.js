@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const generateToken = require("../config/token/generateToken");
-const User = require("../models/UserModel");
+const User = require("../models/userModel");
 const validateMongdbId = require("../utils/validateMongodbID");
 const sendMail = require("@sendgrid/mail");
 const crypto = require("crypto");
@@ -106,7 +106,7 @@ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   validateMongdbId(id);
 
   try {
-    const myProfile = await User.findById(id);
+    const myProfile = await User.findById(id).populate('posts');
     res.json(myProfile);
   } catch (error) {
     res.json(error);
@@ -267,7 +267,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
     const resetUrl = `if you were requested to verify your account, verify now within 10 minutes,
      otherwise ignore this message <a href="http://localhost:3000/verify-account/${verificationToken}">Click to verify Your Account</a>`;
     const msg = {
-      to: "jssreekanth777@gmail.com",
+      to:user?.email,
       from: "sreekanth3265@gmail.com",
       subject: "Verify your account",
       html: resetUrl,
@@ -297,6 +297,7 @@ const accountVerificationCtrl = expressAsyncHandler(async (req, res) => {
   //update the property to true
   userFound.isAccountVerified = true;
   userFound.accountVerificationToken = undefined;
+  userFound.accountVerificationTokenExpire = undefined;
   await userFound.save();
   res.json(userFound);
 });

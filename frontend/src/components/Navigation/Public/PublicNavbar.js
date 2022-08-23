@@ -10,7 +10,7 @@ import { PlusIcon } from "@heroicons/react/solid";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Create", href: "/create-post", current: false },
+  // { name: "Create", href: "/create-post", current: false },
   { name: "Posts", href: "/posts", current: false },
   { name: "Register", href: "/register", current: false },
   { name: "Login", href: "/login", current: false },
@@ -50,8 +50,8 @@ const PublicNavbar = () => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-indigo-700 hover:bg-gray-900 hover:text-white",
+                          ? "bg-indigo-900 text-white font-semibold"
+                          : "text-indigo-700 hover:bg-gray-900 hover:text-white font-semibold",
                         "px-3 py-2 rounded-md text-sm font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}
@@ -76,7 +76,7 @@ const PublicNavbar = () => {
                   </Link>
                 </div>
                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
-                  <Link
+                  {/* <Link
                     to="/create-post"
                     className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
                   >
@@ -85,7 +85,7 @@ const PublicNavbar = () => {
                       aria-hidden="true"
                     />
                     <span>New Post</span>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>

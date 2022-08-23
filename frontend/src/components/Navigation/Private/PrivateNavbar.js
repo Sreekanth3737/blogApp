@@ -63,8 +63,8 @@ const navigate=useNavigate()
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-indigo-700 hover:bg-gray-700 hover:text-white",
+                          ? "bg-indigo-900 text-white font-semibold"
+                          : "text-indigo-700 hover:bg-gray-700 hover:text-white font-semibold",
                         "px-3 py-2 rounded-md text-sm font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}

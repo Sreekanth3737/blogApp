@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Spinner from "../../Spinner";
-
+import {toast} from 'react-toastify'
 //Form schema
 const formSchema = Yup.object({
   email: Yup.string().required("Email is required"),
@@ -19,7 +19,7 @@ const Login = () => {
     const navigate=useNavigate()
 
     const store=useSelector((state)=>state?.users)
-    console.log(store);
+    //console.log(store);
     const {userAuth,loading,serverError,appErr}=store;
     
   //formik
@@ -38,11 +38,14 @@ const Login = () => {
 
  
 //redirect
+useEffect(()=>{
+  if(userAuth){
+    //console.log(userAuth);
+    navigate('/profile')
+  }
+},[userAuth,navigate])
   
-    if(userAuth){
-      console.log(userAuth);
-      navigate('/profile')
-    }
+    
 
   
     if(loading){

@@ -39,7 +39,7 @@ console.log(storeData)
   onSubmit:(values)=>{
     //dispatch the action
     dispatch(registerUserAction(values))
-    console.log(values)
+    //console.log(values)
     
   },
   validationSchema:formSchema,

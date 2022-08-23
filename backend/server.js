@@ -4,6 +4,9 @@ const dbConnect=require('./config/dbConfig');
 const { errorHandler,notFound } = require('./middlewares/errorHandler');
 const userRoutes = require('./routes/usersRoute');
 const postRoutes=require('./routes/postRoutes')
+const categoryRoutes=require('./routes/categoryRoute')
+const commentRoutes=require('./routes/commentRoute')
+const sendEmailRoutes=require('./routes/sendEmailRoute')
 const cors=require('cors')
 const port=process.env.PORT || 7000;
 
@@ -21,6 +24,14 @@ app.use(cors())
 app.use("/api/users",userRoutes)
 //post route
 app.use("/api/posts",postRoutes)
+//category route
+app.use('/api/category',categoryRoutes)
+//comment route
+app.use('/api/comments',commentRoutes)
+//send email
+app.use('/api/email',sendEmailRoutes)
+
+
 //err handler
 app.use(notFound)
 app.use(errorHandler)
@@ -29,4 +40,3 @@ app.use(errorHandler)
  app.listen(port,()=>console.log(`Server started on port ${port}`))
  
 
-//sendgrid Apikey==={ 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 }
