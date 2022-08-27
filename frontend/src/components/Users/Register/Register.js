@@ -64,15 +64,15 @@ console.log(storeData)
                   Register Account
 
                 </span>
-                <h2 className="mt-8 mb-12 text-5xl font-bold font-heading text-black">
+                <h2 className="mt-8 mb-12 text-5xl font-bold font-heading text-indigo-900 animate-bounce">
                   Create an account and start pending down your ideas
                 </h2>
               </div>
             </div>
             <div className="w-full lg:w-1/2 px-4">
-              <div className="px-6 lg:px-20 py-12 lg:py-24 bg-blue-100 rounded-lg">
+              <div className="px-6 lg:px-20 py-12 lg:py-24 bg-blue-100 rounded-lg ">
                 <form onSubmit={formik.handleSubmit}> 
-                  <h3 className="mb-10 text-2xl text-slate font-bold font-heading">
+                  <h3 className="mb-10 text-2xl text-slate font-bold font-heading ">
                     Register Account–
                     {/* display error message */}
                   {appErr || serverErr ? <div className="text-red-400">

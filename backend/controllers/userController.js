@@ -7,6 +7,13 @@ const crypto = require("crypto");
 const cloudinaryUploadImg=require('../utils/cloudinary')
 sendMail.setApiKey(process.env.SEND_GRID_API_KEY);
 const fs=require('fs')
+const mg=require('mailgun-js')
+
+const mailgun=()=>
+mg({
+  apiKey:process.env.MAILGUN_API_KEY,
+  domain:process.env.MAILGUN_DOMAIN,
+})
 
 //---------------------------------------
 //Register
@@ -257,7 +264,7 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
 
   try {
     //generate token
-    const verificationToken = await user.createAccountVerificationToken();
+    const verificationToken = await user?.createAccountVerificationToken();
 
     //save the user
     await user.save();

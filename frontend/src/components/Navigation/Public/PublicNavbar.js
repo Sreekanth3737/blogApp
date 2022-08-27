@@ -22,7 +22,7 @@ function classNames(...classes) {
 
 const PublicNavbar = () => {
   return (
-    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100">
+    <Disclosure as="nav" className= " sticky top-0  z-50 bg-zinc-100 shadow-lg">
       {({ open }) => (
         <>
           <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@ const PublicNavbar = () => {
                 </div>
                 <div className="flex-shrink-0 flex items-center">
                   {/* Logo */}
-                  <BookOpenIcon className="h-10 w-10 text-indigo-600" />
+                  <BookOpenIcon className="h-10 w-10 text-indigo-600 " />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map(item => (

@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   BellIcon,
   MenuIcon,
@@ -9,7 +9,7 @@ import {
   BookOpenIcon,
 } from "@heroicons/react/outline";
 import { PlusIcon, LogoutIcon } from "@heroicons/react/solid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../../redux/slices/users/usersSlice";
 
 const navigation = [
@@ -35,7 +35,7 @@ const navigate=useNavigate()
   
 
   return (
-    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100">
+    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100 shadow-lg">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

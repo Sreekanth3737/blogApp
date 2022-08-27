@@ -2,16 +2,16 @@ import {createAsyncThunk,createSlice} from '@reduxjs/toolkit'
 
 import axios from 'axios'
 import  baseUrl  from '../../../utils/baseUrl';
-
+import instance from '../../../utils/api_instance';
 
 //register action
 
 export const registerUserAction=createAsyncThunk(
     'users/register',
-   async (user,{rejectWithValue,getState,dispatch})=>{
-    try {
-        //http call
-        const config={
+    async (user,{rejectWithValue,getState,dispatch})=>{
+        try {
+            //http call
+            const config={
             headers:{
                 'Content-Type':'application/json',
             },
@@ -20,7 +20,7 @@ export const registerUserAction=createAsyncThunk(
         user,
         config
         );
-
+        
         return data
 
     } catch (error) {
@@ -78,7 +78,6 @@ export const logoutAction=createAsyncThunk(
 //get user from local storage and place into store
 
 const userLoginFromStorage=localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')):null
-
 //slices
 
 const userSlices=createSlice({
