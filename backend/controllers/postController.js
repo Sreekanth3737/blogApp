@@ -8,7 +8,8 @@ const cloudinaryUploadImg = require("../utils/cloudinary");
 
 //create post----------------------------------------------
 const createPostCtrl = expressAsyncHandler(async (req, res) => {
-  console.log(req.file);
+  console.log('+++++++++++++++')
+  console.log(req.file+'ejedecn++++++++');
   const { _id } = req.user;
   //validateMongodbID(req.body.user)
   //check for bad words
@@ -16,7 +17,7 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
   const isProfane = filter.isProfane(req.body.title, req.body.description);
   //block user
   if (isProfane) {
-    const user = await User.findByIdAndUpdate(_id, {
+    await User.findByIdAndUpdate(_id, {
       isBlocked: true,
     });
     throw new Error(
@@ -24,19 +25,19 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
     );
   }
 
-  const localPath = `public/images/posts/${req.file.filename}`;
-  //upload to cloudinary
-  const imgUploaded = await cloudinaryUploadImg(localPath);
+   const localPath = `public/images/posts/${req.file.filename}`;
+  // //upload to cloudinary
+   const imgUploaded = await cloudinaryUploadImg(localPath);
   try {
     const post = await Post.create({
       ...req.body,
-      image: imgUploaded?.url,
       user: _id,
+      image: imgUploaded?.url,
     });
 
-    res.json(imgUploaded);
     //remove uploaded img
     fs.unlinkSync(localPath);
+    res.json(post);
   } catch (error) {
     res.json(error);
   }

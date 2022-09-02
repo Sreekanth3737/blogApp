@@ -1,4 +1,5 @@
 import React from "react";
+import { Container, Row } from 'tailwind-react-ui'
 
 function HomePage() {
   const data = [
@@ -11,7 +12,9 @@ function HomePage() {
     }
   ];
   return (
-    <div className="w-2/3">
+    <div className="container mx-auto px-4">
+      
+      
       {/* <h1 className=" m-8 text-6xl text-indigo-700">Home Page</h1> */}
       <h2 className="m-8 text-4xl text-indigo-700" >Tailwind CSS-React js</h2>
       <h6 className="mx-8">Author - James harison</h6>
@@ -30,7 +33,7 @@ function HomePage() {
 
         <p className="m-8"> {data.map((x) => x.Api)}</p>
 
-      
+        
     </div>
   );
 }

@@ -1,13 +1,17 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import poster from "../../../img/office.webp";
+import poster from "../../../img/color.png";
 import { loginUserAction } from "../../../redux/slices/users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Spinner from "../../Spinner";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+
 //Form schema
 const formSchema = Yup.object({
   email: Yup.string().required("Email is required"),
@@ -15,47 +19,50 @@ const formSchema = Yup.object({
 });
 
 const Login = () => {
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const store=useSelector((state)=>state?.users)
-    //console.log(store);
-    const {userAuth,loading,serverError,appErr}=store;
-    
+  const store = useSelector((state) => state?.users);
+  //console.log(store);
+  const { userAuth, loading, serverError, appErr } = store;
+
+  const login = useGoogleLogin({
+    onSuccess: (credentialResponse) => console.log(credentialResponse),
+  });
+  const gooleAuth = (userData) => {
+    dispatch(loginUserAction(userData));
+  };
+
   //formik
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       //dispath the action
-     dispatch(loginUserAction(values))
+      dispatch(loginUserAction(values));
       //console.log(values);
     },
     validationSchema: formSchema,
   });
 
- 
-//redirect
-useEffect(()=>{
-  if(userAuth){
-    //console.log(userAuth);
-    navigate('/profile')
-  }
-},[userAuth,navigate])
-  
-    
-
-  
-    if(loading){
-      return <Spinner />
+  //redirect
+  useEffect(() => {
+    if (userAuth) {
+      //console.log(userAuth);
+      navigate("/profile");
     }
+  }, [userAuth, navigate]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      <section className="min-h-screen relative py-20 2xl:py-40 bg-zinc-200 overflow-hidden">
-        <div className="absolute top-0 left-0 lg:bottom-0 h-full lg:h-auto w-full lg:w-4/12 bg-zinc-50 lg:overflow-hidden">
+      <section className="min-h-screen relative py-20 2xl:py-40 bg-zinc-50 overflow-hidden">
+        <div className="absolute top-0 left-0 lg:bottom-0 h-full lg:h-auto w-full lg:w-4/12 bg-zinc-50 lg:overflow-hidden ">
           <img
             className="hidden lg:block h-full w-full object-cover"
             src={poster}
@@ -66,7 +73,7 @@ useEffect(()=>{
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-wrap items-center -mx-4">
               <div className="w-full lg:w-2/5 px-4">
-                <div className="px-6 lg:px-12 py-12 lg:py-24 bg-zinc-100 shadow-lg rounded-lg" >
+                <div className="px-6 lg:px-12 py-12 lg:py-24 bg-slate-200 shadow-lg rounded-lg">
                   {/* Form */}
                   <form onSubmit={formik.handleSubmit}>
                     <h3 className="mb-10 text-2xl font-bold font-heading">
@@ -74,7 +81,7 @@ useEffect(()=>{
                       Login to your Account
                     </h3>
                     <h2 className="text-red-500">
-                      {serverError}  {appErr}
+                      {serverError} {appErr}
                     </h2>
                     <div className="flex items-center pl-6 mb-3 border border-gray-50 bg-white rounded-full">
                       <span className="inline-block pr-3 border-r border-gray-50">
@@ -147,11 +154,35 @@ useEffect(()=>{
                     {/* Login btn */}
                     <button
                       type="submit"
-                      className="py-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
+                      className="py-4 w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 hover:bg-indigo-500  text-white font-bold rounded-full transition duration-200"
                     >
                       Login
                     </button>
                   </form>
+
+                  <span className="flex justify-center text-gray-700 font-bold mt-2">
+                    OR
+                  </span>
+
+                  <div className="flex items-center justify-center w-full shadow-xl  bg-blue-100 mt-2 py-1.5 font-bold rounded-full transition duration-200 hover:bg-blue-200 text-center " >
+                  <GoogleLogin
+                    
+                    onSuccess={(credentialResponse) => {
+                      var decoded = jwt_decode(credentialResponse.credential);
+                      const userData = {
+                        firstName: decoded.given_name,
+                        email: decoded.email,
+                        lastName: decoded.family_name,
+                        password: decoded.sub,
+                      };
+
+                      gooleAuth(userData);
+                    }}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  />
+                  </div>
                 </div>
               </div>
               <div className="w-full lg:w-3/5 px-4 mb-16 lg:mb-0 order-first lg:order-last">

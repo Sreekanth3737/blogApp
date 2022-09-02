@@ -97,7 +97,7 @@ const AddNewCategory = () => {
               ) : (
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-md font-semibold rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg "
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-md font-semibold rounded-md text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg "
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <PlusCircleIcon

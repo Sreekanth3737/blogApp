@@ -6,7 +6,7 @@ import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingComponent from "../../utils/LoadingComponent";
 import UpdateCategory from "./UpdateCategory";
-
+import { Container } from 'tailwind-react-ui'
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const navigate=useNavigate()
 
 
   return (
-    <>
+    <Container>
       {loading ? (
         <>
         <LoadingComponent />
@@ -122,7 +122,7 @@ const navigate=useNavigate()
       </div>
       )}
       
-    </>
+    </Container>
   );
 };
 
