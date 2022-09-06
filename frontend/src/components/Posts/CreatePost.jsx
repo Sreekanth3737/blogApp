@@ -1,13 +1,16 @@
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import * as Yup from "yup";
-import { createpostAction } from "../../redux/slices/posts/postSlices";
+import { createpostAction, } from "../../redux/slices/posts/postSlices";
 import CategoryDropDown from "../Categories/CategoryDropDown";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
-import Spinner from "../Spinner";
-
+import JoditEditor from "jodit-react";
+import { useMemo, useRef } from "react";
+import React, {Component, PropTypes} from 'react';
+import RichTextEditor from 'react-rte';
+import NewFeed from "../homepage/NewFeed";
 
 //form schema
 const formSchema = Yup.object().shape({
@@ -16,6 +19,8 @@ const formSchema = Yup.object().shape({
   category: Yup.object().required("Category is required"),
   image: Yup.string().required("Image is required"),
 });
+
+
 
 //css for dropzone
 const Container = styled.div`
@@ -34,60 +39,61 @@ border-color:'red'
 `;
 
 export default function CreatePost() {
+  const editor = useRef(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-   //select store data
-    const post = useSelector(state => state?.post);
-    console.log(post);
-    const { postCreated, loading, appErr, serverErr } = post;
+  
+
+  //select store data
+  const post = useSelector((state) => state?.post);
+  const { isCreated, loading, appErr, serverErr } = post;
+  console.log(post);
 
   const formik = useFormik({
     initialValues: {
       title: "",
       description: "",
       category: "",
-      image:"",
+      image: "",
     },
     onSubmit: (values) => {
       //dispatch the action
 
-      const data={
-        category:values?.category?.label,
-        title:values?.title,
-        description:values?.description,
-        image:values?.image,
-      }
-      console.log(values);
-     dispatch(createpostAction(data));
-     if(postCreated){
-      navigate('/')
-     }else{
-      navigate('/create-post')
-     }
+      const data = {
+        category: values?.category?.label,
+        title: values?.title,
+        description: values?.description,
+        image: values?.image,
+      };
+      //console.log(values);
+      dispatch(createpostAction(data));
       
+      if (post) {
+        navigate('/');
+      } 
     },
     validationSchema: formSchema,
   });
 
   return (
     <>
-      <div className="min-h-screen bg-zinc-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="container min-h-screen bg-zinc-50 flex flex-col justify-center py-12 sm:px-6 lg:px-2">
         <div className="sm:mx-auto sm:w-full sm:max-w-md ">
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-blue-700 animate-bounce">
-            Create Post
-          </h2>
+          <h1 className=" text-center text-3xl font-extrabold text-blue-700 animate-bounce">
+            What going in Your Mind?...
+          </h1>
 
-          {/* <p className="mt-2 text-center text-sm text-gray-600">
-              <p className="font-semibold text-green-600 hover:text-indigo-500  ">
-                Share your ideas to the word. Your post must be free from
-                profanity
-              </p>
-            </p> */}
-           
+          <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="font-semibold text-gray-700 hover:text-indigo-500  ">
+              Share your ideas to the world. Your post must be free from
+              profanity
+            </p>
+          </p>
         </div>
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl shadow-xl">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="rounded-br-lg shadow-xl">
+          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 ">
             <form onSubmit={formik.handleSubmit} className="space-y-6">
               <div>
                 <label
@@ -110,7 +116,9 @@ export default function CreatePost() {
                   />
                 </div>
                 {/* Err msg */}
-                <div className="text-red-500">{formik?.touched?.title && formik?.errors?.title}</div>
+                <div className="text-red-500">
+                  {formik?.touched?.title && formik?.errors?.title}
+                </div>
               </div>
               {/* Category input goes here */}
 
@@ -133,10 +141,11 @@ export default function CreatePost() {
                   htmlFor="password"
                   className="block text-bold font-medium text-indigo-700"
                 >
-                  Description
+                  Post Content
                 </label>
                 {/* Description */}
-                <textarea
+                <JoditEditor
+                  ref={editor}
                   value={formik.values.description}
                   onChange={formik.handleChange("description")}
                   onBlur={formik.handleBlur("description")}
@@ -144,12 +153,16 @@ export default function CreatePost() {
                   cols="10"
                   className="rounded-lg appearance-none block w-full py-3 px-3 text-base text-center leading-tight text-gray-600 bg-transparent focus:bg-transparent  border border-gray-200 focus:border-gray-500  focus:outline-none"
                   type="text"
-                ></textarea>
+                  />
+                {/* Err msg */}
+                <div className="text-red-500">
+                  {formik?.touched?.description && formik?.errors?.description}
+                </div>
 
-                  {/* Image component */}
+                {/* Image component */}
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium mt-3 mb-2 text-gray-700"
+                  className="block text-sm font-medium mt-3 mb-2 text-indigo-700"
                 >
                   Select image to upload
                 </label>
@@ -157,7 +170,7 @@ export default function CreatePost() {
                   <Dropzone
                     onBlur={formik.handleBlur("image")}
                     accept="image/jpeg, image/png image/webp"
-                    onDrop={acceptedFiles => {
+                    onDrop={(acceptedFiles) => {
                       formik.setFieldValue("image", acceptedFiles[0]);
                     }}
                   >
@@ -166,7 +179,7 @@ export default function CreatePost() {
                         <div
                           {...getRootProps({
                             className: "dropzone",
-                            onDrop: event => event.stopPropagation(),
+                            onDrop: (event) => event.stopPropagation(),
                           })}
                         >
                           <input {...getInputProps()} />
@@ -180,38 +193,38 @@ export default function CreatePost() {
                 </Container>
 
                 {appErr || serverErr ? (
-            <p className="mt-2 text-center text-lg text-red-600">
-              {serverErr} {appErr}
-            </p>
-          ) : null}
+                  <p className="mt-2 text-center text-lg text-red-600">
+                    {serverErr} {appErr}
+                  </p>
+                ) : null}
 
-
-
-                {/* Err msg */}
-                <div className="text-red-500">{formik?.touched?.description  && formik?.errors?.description}</div>
+                
               </div>
               <div>
                 {/* Submit btn */}
-                    {loading ?(
-                       <button
-                       disabled
-                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                     >
-                       Loading please wait...
-                     </button>
-                    ):(
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-bold text-white bg-gradient-to-r from-green-500 to-blue-500 hover:from-pink-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
-                >
-                  Publish
-                </button>
+                {loading ? (
+                  <button
+                    disabled
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Loading please wait...
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-xl text-sm font-bold text-white bg-gradient-to-r from-green-500 to-blue-500 hover:from-pink-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 "
+                  >
+                    Publish
+                  </button>
                 )}
               </div>
             </form>
           </div>
         </div>
       </div>
+      {/* <div className="container">
+      <NewFeed />
+      </div> */}
     </>
   );
 }

@@ -28,9 +28,9 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
 
+              <Route path="/" element={<HomePage />} />
             <Route element={<AdminProtectRoute />}>
               <Route path="category-list" element={<CategoryList />} />
-              <Route path="/" element={<HomePage />} />
 
               <Route path="/update-category/:id" element={<UpdateCategory />} />
               <Route path="add-category" element={<AddNewCategory />} />
@@ -45,7 +45,7 @@ function App() {
               }
             />
 
-            <Route path ='/add-post' element={<AddPost />}/>
+            {/* <Route path ='/add-post' element={<AddPost />}/> */}
 
             <Route path="*" element={<PageNotFound />} />
           </Routes>

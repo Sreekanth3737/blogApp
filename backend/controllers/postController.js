@@ -46,12 +46,17 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 //fetch all posts-----------------------------------------
 const fetchPOstsCtrl = expressAsyncHandler(async (req, res) => {
   try {
-    const posts = await Post.find({}).populate("user");
-    res.json(posts);
+   const skip=req.query.skip ? Number(req.query.skip):0
+    const default_limit=10;
+    const posts = await Post.find({}).skip(skip).limit(default_limit).populate("user");
+
+    res.json(posts)
+  //res.json({totalPages:Math.ceil(total / pageSize),posts});
   } catch (error) {
     res.json(error);
   }
 });
+
 
 //fetch a single post
 const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
