@@ -30,7 +30,8 @@ const AddNewCategory = () => {
   const { loading, appErr, serverErr} = state;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="container ">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-xl w-full space-y-8 shadow-2xl ">
         <div>
           <BookOpenIcon className="mx-auto h-12 w-auto" />
@@ -112,6 +113,7 @@ const AddNewCategory = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

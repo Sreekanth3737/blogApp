@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 import * as Yup from "yup";
-import { createpostAction, } from "../../redux/slices/posts/postSlices";
+import { createpostAction, fetchPostsAction } from "../../redux/slices/posts/postSlices";
 import CategoryDropDown from "../Categories/CategoryDropDown";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import { useMemo, useRef } from "react";
 import React, {Component, PropTypes} from 'react';
 import RichTextEditor from 'react-rte';
 import NewFeed from "../homepage/NewFeed";
+import { useEffect } from "react";
 
 //form schema
 const formSchema = Yup.object().shape({
@@ -68,15 +69,16 @@ export default function CreatePost() {
         image: values?.image,
       };
       //console.log(values);
+
+      
       dispatch(createpostAction(data));
       
-      if (post) {
-        navigate('/');
-      } 
+
+      
     },
     validationSchema: formSchema,
   });
-
+if(isCreated)return <Navigate to='/' />
   return (
     <>
       <div className="container min-h-screen bg-zinc-50 flex flex-col justify-center py-12 sm:px-6 lg:px-2">

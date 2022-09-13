@@ -46,6 +46,7 @@ const UpdateCategory = () => {
   });
 
   return (
+      <div className="container">
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 py-12 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-xl  w-full space-y-8 shadow-2xl ">
         <div>
@@ -147,6 +148,7 @@ const UpdateCategory = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

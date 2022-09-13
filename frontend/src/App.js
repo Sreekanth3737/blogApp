@@ -15,6 +15,9 @@ import UserProtectedRoute from "./components/Navigation/ProtectedRoutes/UserProt
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddPost from "./components/Posts/AddPost";
+import PostsList from "./components/Posts/PostsList";
+import PostDetails from "./components/Posts/PostDetails";
+import UpdatePost from "./components/Posts/UpdatePost";
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
             <Route path="/login" element={<Login />} />
 
               <Route path="/" element={<HomePage />} />
+              <Route path="/post-details/:id" element={<PostDetails />} />
+ 
+
             <Route element={<AdminProtectRoute />}>
               <Route path="category-list" element={<CategoryList />} />
 
@@ -44,9 +50,15 @@ function App() {
                 </UserProtectedRoute>
               }
             />
+            <Route path="/update-post/:id" element={
+              <UserProtectedRoute>
+                <UpdatePost />
+              </UserProtectedRoute>
+            }
+            />
 
             {/* <Route path ='/add-post' element={<AddPost />}/> */}
-
+              {/* <Route path="/post-list" element={<PostsList />}/> */}
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

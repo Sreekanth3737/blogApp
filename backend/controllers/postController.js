@@ -45,12 +45,20 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 
 //fetch all posts-----------------------------------------
 const fetchPOstsCtrl = expressAsyncHandler(async (req, res) => {
+  const hasCategory=req.query.category
+  console.log(hasCategory)
   try {
-   const skip=req.query.skip ? Number(req.query.skip):0
-    const default_limit=10;
-    const posts = await Post.find({}).skip(skip).limit(default_limit).populate("user");
+   
+    //check if it has a category
+    if(hasCategory){
 
-    res.json(posts)
+      const posts = await Post.find({category:hasCategory}).populate("user");
+      res.json(posts)
+    }else{
+      const posts = await Post.find({}).populate("user");
+      res.json(posts)
+    }
+
   //res.json({totalPages:Math.ceil(total / pageSize),posts});
   } catch (error) {
     res.json(error);
