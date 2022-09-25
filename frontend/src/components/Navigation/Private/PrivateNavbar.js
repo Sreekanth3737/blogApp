@@ -16,7 +16,7 @@ const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Create", href: "/create-post", current: false },
   { name: "Posts", href: "/posts", current: false },
-  { name: "Authors", href: "/users", current: false },
+  { name: "Profile", href: "/users", current: false },
 ];
 
 function classNames(...classes) {
@@ -127,7 +127,7 @@ const navigate=useNavigate()
                         >
                           <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-blue-200 ring-1 ring-black ring-opacity-5 focus:outline-none"
                           >
                             {userNavigation.map(item => (
                               <Menu.Item key={item.name}>
@@ -178,22 +178,22 @@ const navigate=useNavigate()
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    // src={isLogin.profilePhoto}
+                    src={isLogin?.profilePhoto}
                     alt=""
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">
-                    {/* {user.name} */}
+                  <div className="text-base font-medium text-gray-700">
+                    {isLogin?.firstName} {isLogin?.lastName}
                   </div>
-                  <div className="text-sm font-medium text-gray-400">
-                    {/* {user.email} */}
+                  <div className="text-sm font-medium text-gray-700">
+                    {isLogin?.email}
                   </div>
                 </div>
-                <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                {/* <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </button> */}
               </div>
               <div className="mt-3 px-2 space-y-1 sm:px-3">
                 {userNavigation.map(item => (

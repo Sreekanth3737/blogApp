@@ -8,7 +8,11 @@ import {
 } from "@heroicons/react/outline";
 
 import { MailIcon, EyeIcon } from "@heroicons/react/solid";
-import { userProfileAction,usersFollowAction,unFollowAction } from "../../../redux/slices/users/usersSlice";
+import {
+  userProfileAction,
+  usersFollowAction,
+  unFollowAction,
+} from "../../../redux/slices/users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import DateFormatter from "../../../utils/DateFormatter";
 import * as DOMPurify from "dompurify";
@@ -17,27 +21,29 @@ import LoadingComponent from "../../../utils/LoadingComponent";
 export default function Profile() {
   const { id } = useParams();
   //console.log(id)
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
- 
-   
+
   //select user data from store
   const users = useSelector((state) => state.users);
-  const { profile, profileLoading, profileAppErr, profileServerErr,followed,unFollowed,userAuth } = users;
+  const {
+    profile,
+    profileLoading,
+    profileAppErr,
+    profileServerErr,
+    followed,
+    unFollowed,
+    userAuth,
+  } = users;
   //console.log(profile);
-
 
   useEffect(() => {
     dispatch(userProfileAction(id));
-  }, [id, dispatch,followed,unFollowed]);
+  }, [id, dispatch, followed, unFollowed]);
 
+  //isLogin
 
-  
-  
-//isLogin
-
-const isLoginUser = userAuth?._id === profile?._id;
-console.log(profile)
+  const isLoginUser = userAuth?._id === profile?._id;
   return (
     <>
       <div className="min-h-screen flex justify-center items-center">
@@ -106,15 +112,15 @@ console.log(profile)
                                 <EyeIcon className="h-5 w-5 " />
                                 <div className="pl-2">
                                   <span className="text-indigo-400 cursor-pointer ">
-                                   Number of viewers{' '}
-                                   {profile?.viewedBy?.length}
+                                    Number of viewers{" "}
+                                    {profile?.viewedBy?.length}
                                   </span>
                                 </div>
                               </div>
 
                               {/* is login user */}
                               {/* Upload profile photo */}
-                              <Link
+                              {isLoginUser &&  <Link
                                 to={`/upload-profile-photo/${profile?._id}`}
                                 className="inline-flex justify-center w-48 px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                               >
@@ -123,53 +129,53 @@ console.log(profile)
                                   aria-hidden="true"
                                 />
                                 <span>Upload Photo</span>
-                              </Link>
+                              </Link> }
+                             
                             </div>
 
                             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                               {/* // Hide follow button from the same */}
-                             
-                             {!isLoginUser && (
-                               <div>
-                               {profile?.isFollowing ? (
-                                 <button
-                                   onClick={() =>
-                                     dispatch(unFollowAction(id))
-                                   }
-                                   className="mr-2 inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                                 >
-                                   <EmojiSadIcon
-                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                     aria-hidden="true"
-                                   />
-                                   <span>Unfollow</span>
-                                   
-                                 </button>
-                               ) : (
-                                 <button
-                                   onClick={() =>
-                                     dispatch(usersFollowAction(id))
-                                   }
-                                   type="button"
-                                   className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                                 >
-                                   <HeartIcon
-                                     className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                     aria-hidden="true"
-                                   />
-                                   <span>Follow </span>
-                                   <span className="pl-2">
-                                     {profile?.followers?.length}
-                                   </span>
-                                 </button>
-                               )}
-                             </div>
-                             )}
+
+                              {!isLoginUser && (
+                                <div>
+                                  {profile?.isFollowing ? (
+                                    <button
+                                      onClick={() =>
+                                        dispatch(unFollowAction(id))
+                                      }
+                                      className="mr-2 inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                                    >
+                                      <EmojiSadIcon
+                                        className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                      />
+                                      <span>Unfollow</span>
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        dispatch(usersFollowAction(id))
+                                      }
+                                      type="button"
+                                      className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                                    >
+                                      <HeartIcon
+                                        className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                      />
+                                      <span>Follow </span>
+                                      <span className="pl-2">
+                                        {profile?.followers?.length}
+                                      </span>
+                                    </button>
+                                  )}
+                                </div>
+                              )}
 
                               {/* Update Profile */}
 
                               <>
-                                <Link
+                              {isLoginUser && <Link
                                   to={`/update-profile/${profile?._id}`}
                                   className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                                 >
@@ -178,14 +184,17 @@ console.log(profile)
                                     aria-hidden="true"
                                   />
                                   <span>Update Profile</span>
-                                </Link>
+                                </Link> }
+                                
                               </>
+
                               {/* Send Mail */}
-                              <Link to='/send-email'
-                              
-                              state={{email:profile?.email,
-                                id:profile?.id
-                              }}
+                              <Link
+                                to="/send-email"
+                                state={{
+                                  email: profile?.email,
+                                  id: profile?.id,
+                                }}
                                 className="inline-flex justify-center bg-indigo-900 px-4 py-2 border border-yellow-700 shadow-sm text-sm font-medium rounded-md text-gray-700  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                               >
                                 <MailIcon
@@ -220,27 +229,31 @@ console.log(profile)
 
                         {/* Who view my post */}
                         <ul className="">
-                          {profile?.viewedBy?.length <=0 ? <h1>No Viewers</h1> : profile?.viewedBy?.map(user=>(
-                            <li>
-                              <div>
-                            <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
-                              <img
-                                className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
-                                src={user?.profilePhoto}
-                                 alt={user?.firstName}
-                              />
-                              <div className="font-medium text-lg leading-6 space-y-1">
-                                <h3>
-                                  {user?.firstName} {user?.lastName}
-                                </h3>
-                                <p className="text-indigo-600">
-                                  {user?.accountType} 
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                            </li>
-                          ))}
+                          {profile?.viewedBy?.length <= 0 ? (
+                            <h1>No Viewers</h1>
+                          ) : (
+                            profile?.viewedBy?.map((user) => (
+                              <li>
+                                <div>
+                                  <div className="flex mb-2 items-center space-x-4 lg:space-x-6">
+                                    <img
+                                      className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
+                                      src={user?.profilePhoto}
+                                      alt={user?.firstName}
+                                    />
+                                    <div className="font-medium text-lg leading-6 space-y-1">
+                                      <h3>
+                                        {user?.firstName} {user?.lastName}
+                                      </h3>
+                                      <p className="text-indigo-600">
+                                        {user?.accountType}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            ))
+                          )}
                         </ul>
                       </div>
                       {/* All my Post */}
@@ -255,7 +268,7 @@ console.log(profile)
                             No Post Found
                           </h2>
                         ) : (
-                          profile?.posts.map((post) => (
+                          profile?.posts?.map((post) => (
                             <div className="flex flex-wrap  -mx-3 mt-3  lg:mb-6">
                               <div className="mb-2   w-full lg:w-1/4 px-3">
                                 <div>

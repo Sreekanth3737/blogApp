@@ -97,6 +97,24 @@ if(isCreated)return <Navigate to='/' />
         <div className="rounded-br-lg shadow-xl">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 ">
             <form onSubmit={formik.handleSubmit} className="space-y-6">
+
+                {/* Category input goes here */}
+
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold text-indigo-600"
+              >
+                Select Category
+              </label>
+
+              <CategoryDropDown
+                value={formik.values.category?.label}
+                onChange={formik.setFieldValue}
+                onBlur={formik.setFieldTouched}
+                error={formik.errors.category}
+                touched={formik.touched.category}
+              />
+
               <div>
                 <label
                   htmlFor="email"
@@ -122,22 +140,7 @@ if(isCreated)return <Navigate to='/' />
                   {formik?.touched?.title && formik?.errors?.title}
                 </div>
               </div>
-              {/* Category input goes here */}
-
-              <label
-                htmlFor="password"
-                className="block text-sm font-bold text-indigo-600"
-              >
-                Select Category
-              </label>
-
-              <CategoryDropDown
-                value={formik.values.category?.label}
-                onChange={formik.setFieldValue}
-                onBlur={formik.setFieldTouched}
-                error={formik.errors.category}
-                touched={formik.touched.category}
-              />
+              
               <div>
                 <label
                   htmlFor="password"

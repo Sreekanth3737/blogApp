@@ -7,21 +7,21 @@ import UsersListItem from "./UsersListItem";
 
 const UsersList = () => {
   const dispatch = useDispatch();
-
+  const users = useSelector((state) => state?.users);
+  const { usersList, loading, appErr, serverErr,block,unBlock } = users;
   useEffect(() => {
     dispatch(fetchAllUsersAction());
-  }, []);
+  }, [block,unBlock]);
 
   //data from store
-  const users = useSelector((state) => state?.users);
-  const { usersList, loading, appErr, serverErr } = users;
+  
   return (
     <>
       <section class="py-8 bg-gray-900 min-h-screen">
         {loading ? (
           <LoadingComponent />
         ) : appErr || serverErr ? (
-          <h3>
+          <h3 className="text-red-500 text-center text-lg">
             {appErr} {serverErr}
           </h3>
         ) : usersList?.length <= 0 ? (

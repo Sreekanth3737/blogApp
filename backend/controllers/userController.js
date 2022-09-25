@@ -10,7 +10,8 @@ const fs=require('fs')
 require('dotenv').config()
 const mg=require('mailgun-js')
 const {sendEmail}=require('../utils/nodemailer')
-const nodemailer=require('nodemailer')
+const nodemailer=require('nodemailer');
+const blockUser = require("../utils/blockUser");
 
 
 //---------------------------------------
@@ -41,6 +42,10 @@ const userRegister = expressAsyncHandler(async (req, res) => {
 const loginUserCtrl = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const userFound = await User.findOne({ email });
+  //check if user is blocked
+  if(userFound?.isBlocked){
+    throw new Error('Access denied you are blocked')
+  }
   //check if password is match
   if (userFound && (await userFound.isPasswordMatched(password))) {
     res.json({
@@ -139,6 +144,8 @@ console.log(loginUserId)
 //-------------------------
 const updateUserCtrl = expressAsyncHandler(async (req, res) => {
   const { _id } = req?.user;
+  //block user
+  blockUser(req?.user)
   validateMongdbId(_id);
   const user = await User.findByIdAndUpdate(
     _id,
@@ -399,7 +406,8 @@ const passwordResetCtrl = expressAsyncHandler(async (req, res) => {
 const profilePhotoUploadCtrl=expressAsyncHandler(async(req,res)=>{
   //find the login user by token
   const {_id}=req.user
-  
+  //block user
+  blockUser(req?.user)
   const localPath=`public/images/profile/${req.file.filename}`
   //upload to cloudinary
  const imgUploaded= await cloudinaryUploadImg(localPath)

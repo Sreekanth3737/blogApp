@@ -1,12 +1,18 @@
 const expressAsyncHandler = require("express-async-handler");
 const { Error } = require("mongoose");
 const Comment = require("../models/commentModel");
+const blockUser = require("../utils/blockUser");
 const validateMongdbId = require("../utils/validateMongodbID");
 
 //create comment----------------------------------------------
 const createCommentCtrl = expressAsyncHandler(async (req, res) => {
   //get the user
   const user = req.user;
+  //check if user is blocked
+//   if(user?.isBlocked){
+//     throw new Error(`Access Denied, ${user?.firstName} You are blocked`)
+//   }
+  blockUser(user);
   //get the post ID
   const { postId,  description } = req.body;
 

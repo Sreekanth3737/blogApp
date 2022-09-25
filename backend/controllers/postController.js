@@ -5,17 +5,19 @@ const fs = require("fs");
 const expressAsyncHandler = require("express-async-handler");
 const validateMongodbID = require("../utils/validateMongodbID");
 const cloudinaryUploadImg = require("../utils/cloudinary");
+const blockUser = require("../utils/blockUser");
 
 //create post----------------------------------------------
 const createPostCtrl = expressAsyncHandler(async (req, res) => {
-  console.log('+++++++++++++++')
-  console.log(req.file+'ejedecn++++++++');
+  
   const { _id } = req.user;
+    //block user
+  blockUser(req.user)
   //validateMongodbID(req.body.user)
   //check for bad words
   const filter = new Filter();
   const isProfane = filter.isProfane(req.body.title, req.body.description);
-  //block user
+
   if (isProfane) {
     await User.findByIdAndUpdate(_id, {
       isBlocked: true,

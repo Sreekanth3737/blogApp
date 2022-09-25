@@ -133,7 +133,7 @@ const AdminNavbar = ({isLogin}) => {
                         >
                           <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-blue-200 ring-1 ring-black ring-opacity-5 focus:outline-none"
                           >
                             {userNavigation.map(item => (
                               <Menu.Item key={item.name}>
@@ -178,31 +178,32 @@ const AdminNavbar = ({isLogin}) => {
                 </Link>
               ))}
             </div>
+            {/* mobile view */}
             <div className="pt-4 pb-3 border-t border-gray-700">
               <div className="flex items-center px-5 sm:px-6">
                 <div className="flex-shrink-0">
                   {/* Image */}
-                  <img className="h-10 w-10 rounded-full" src="" alt="" />
+                  <img className="h-10 w-10 rounded-full" src={isLogin?.profilePhoto} alt= {isLogin?.firstName}/>
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">
-                    {/* {user.name} */}
+                  <div className="text-base font-medium text-gray-700">
+                    {isLogin?.firstName}
                   </div>
-                  <div className="text-sm font-medium text-gray-400">
-                    {/* {user.email} */}
+                  <div className="text-sm font-medium text-gray-700">
+                    {isLogin?.email}
                   </div>
                 </div>
-                <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                {/* <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </button> */}
               </div>
               <div className="mt-3 px-2 space-y-1 sm:px-3">
                 {userNavigation.map(item => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-gray-700"
                   >
                     {item.name}
                   </a>
