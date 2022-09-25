@@ -5,7 +5,7 @@ const { createCommentCtrl ,fetchAllCommentsCtrl,fetchCommentCtrl,updateCommentCt
 
 
 router.post('/',authMiddleware,createCommentCtrl)
-router.get('/',authMiddleware,fetchAllCommentsCtrl)
+router.get('/',fetchAllCommentsCtrl)
 router.get('/:id',authMiddleware,fetchCommentCtrl)
 router.put('/:id',authMiddleware,updateCommentCtrl)
 router.delete('/:id',authMiddleware,deleteCommentCtrl)

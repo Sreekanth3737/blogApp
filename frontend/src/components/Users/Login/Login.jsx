@@ -49,9 +49,12 @@ const Login = () => {
 
   //redirect
   useEffect(() => {
-    if (userAuth) {
+    if (userAuth?.isAdmin) {
       //console.log(userAuth);
-      navigate("/profile");
+      navigate("/admin-dashboard");
+    }
+    if(userAuth?.isAdmin===false){
+      navigate('/')
     }
   }, [userAuth, navigate]);
 

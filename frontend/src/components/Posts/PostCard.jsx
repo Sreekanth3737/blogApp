@@ -1,6 +1,9 @@
 import React from 'react'
 import * as DOMPurify from 'dompurify';
 import {Button, Card,CardBody, CardImg,CardText} from 'reactstrap'
+
+
+
 function PostCard({post={title:"this is default post title", description:"this is default description",image:"default image"}}) {
   
   return (

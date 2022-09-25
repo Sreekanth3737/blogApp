@@ -189,10 +189,12 @@ export const toggleAddDisLikeToPost=createAsyncThunk(
 )
 
 
+
+
 //slice
 const postSlice = createSlice({
   name: "post",
-  initialState: {},
+  initialState: { },
 
     
 

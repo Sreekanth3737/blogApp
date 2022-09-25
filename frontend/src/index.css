@@ -71,4 +71,16 @@
     color: grey;
     background-color: grey;
   }  */
+
+
+  /* change color */
+  
+  .like {
+    color:#555
+  }
+  .dislike {
+    color:blue
+  }
+
+
   

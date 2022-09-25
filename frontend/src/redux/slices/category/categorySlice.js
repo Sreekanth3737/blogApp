@@ -4,7 +4,7 @@ import axiosInstance from "../../../utils/api_instance";
 import baseUrl from "../../../utils/baseUrl";
 
 
-//action
+//create action
 
 export const createCategoryAction = createAsyncThunk(
   "category/create",

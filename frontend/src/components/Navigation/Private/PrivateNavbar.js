@@ -24,8 +24,9 @@ function classNames(...classes) {
 }
 
 const PrivateNavbar = ({ isLogin }) => {
+  //console.log(isLogin);
   const userNavigation = [
-    { name: "Your Profile", href: `/profile` },
+    { name: "Your Profile", href: `/profile/${isLogin?._id}` },
     { name: "Change your password", href: "/update-password" },
   ];
 const navigate=useNavigate()
@@ -35,7 +36,7 @@ const navigate=useNavigate()
   
 
   return (
-    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100 shadow-lg">
+    <Disclosure as="nav" className="sticky top-0  z-50 bg-zinc-100 shadow-sm">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,7 +110,7 @@ const navigate=useNavigate()
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              // src={isLogin?.profilePhoto}
+                              src={isLogin?.profilePhoto}
                               alt=""
                             />
                           </Menu.Button>

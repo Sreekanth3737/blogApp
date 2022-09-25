@@ -12,7 +12,7 @@ const commentSchema=new mongoose.Schema({
         required :[true,'User is required'],
 
     },
-    userComment:{
+    description:{
         type:String,
         required:[true,"Comment description is required"],
     },

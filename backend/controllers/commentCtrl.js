@@ -8,13 +8,13 @@ const createCommentCtrl = expressAsyncHandler(async (req, res) => {
   //get the user
   const user = req.user;
   //get the post ID
-  const { postId,  userComment } = req.body;
+  const { postId,  description } = req.body;
 
   try {
     const comment = await Comment.create({
       post: postId,
       user: user,
-      userComment:userComment,
+      description:description,
     });
     res.json(comment);
   } catch (error) {
@@ -26,7 +26,7 @@ const createCommentCtrl = expressAsyncHandler(async (req, res) => {
 const fetchAllCommentsCtrl = expressAsyncHandler(async (req, res) => {
  
     try {
-       const comments=await Comment.find({}).sort("-createdAt") ;
+       const comments=await Comment.find({}).sort('-createdAt') ;
        res.json(comments)
     } catch (error) {
        res.json(error) 
@@ -56,7 +56,7 @@ const updateCommentCtrl=expressAsyncHandler(async(req,res)=>{
         const updateComment =await Comment.findByIdAndUpdate(id,{
             post:req?.body?.postId,
             user:req?.user,
-            userComment:req?.body?.userComment
+            description:req?.body?.description
         },{new:true,runValidators:true});
         res.json(updateComment)
     } catch (error) {

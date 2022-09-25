@@ -57,7 +57,7 @@ router.put("/block-user/:id", authMiddleware, blockUserCtrl);
 router.put("/unblock-user/:id", authMiddleware, unBlockUserCtrl);
 
 router.get("/profile/:id", authMiddleware, userProfileCtrl);
-router.put("/:id", authMiddleware, updateUserCtrl);
+router.put("/", authMiddleware, updateUserCtrl);
 
 router.delete("/:id", deleteUserCtrl);
 router.get("/:id", fetchUserDetailsCtrl);

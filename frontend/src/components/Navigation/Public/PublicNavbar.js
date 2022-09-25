@@ -22,7 +22,7 @@ function classNames(...classes) {
 
 const PublicNavbar = () => {
   return (
-    <Disclosure as="nav" className= " sticky top-0  z-50 bg-zinc-100 shadow-lg">
+    <Disclosure as="nav" className= " sticky top-0  z-50 bg-zinc-100 shadow-sm">
       {({ open }) => (
         <>
           <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

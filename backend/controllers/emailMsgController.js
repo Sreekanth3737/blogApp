@@ -2,40 +2,42 @@ const expressAsyncHandler=require('express-async-handler')
 const sendGrid=require('@sendgrid/mail');
 const EmailMsg = require('../models/emailMessagingModel');
 const Filter = require("bad-words");
+const nodemailer=require('nodemailer')
+require("dotenv").config();
+const {sendEmail}=require('../utils/nodemailer')
+
+
+
 
 const sendEmailMsgCtrl=expressAsyncHandler(async(req,res)=>{
+    try{
+
+  
     const {to,subject,message}=req.body;
-    const emailMessage=subject+" "+message;
-    //prevent profanity/bad words
-    const filter=new Filter();
-
-    const isProfane=filter.isProfane(emailMessage);
-    if(isProfane)
-        throw new Error("Email sent failed, because it contains profane words.")
-    try {
-       //build up msg
-       const msg={
+    console.log(req.body);
+    const msg={
         to,
+        from:process.env.EMAIL,
         subject,
-        text:message,
-        from:'sreekanth3265@gmail.com'
+        message,
+        sentBy:req?.user?._id,
+    };
 
-       };
-       //send msg
-       await sendGrid.send(msg)
-       //save to our db
-       await EmailMsg.create({
+    const resData=await sendEmail(msg)
+    //save to our db
+    await EmailMsg.create({
         sentBy:req?.user?._id,
         from:req?.user?.email,
         to,
         message,
         subject,
+    });
+    res.json("Email Sent");
 
-       })
-       res.json('mail sent')
-    } catch (error) {
-        res.json(error)
-    }
+}catch(error){
+    res.json(error)
+}
+
 });
 
 

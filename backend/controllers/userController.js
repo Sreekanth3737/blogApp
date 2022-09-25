@@ -7,13 +7,11 @@ const crypto = require("crypto");
 const cloudinaryUploadImg=require('../utils/cloudinary')
 sendMail.setApiKey(process.env.SEND_GRID_API_KEY);
 const fs=require('fs')
+require('dotenv').config()
 const mg=require('mailgun-js')
+const {sendEmail}=require('../utils/nodemailer')
+const nodemailer=require('nodemailer')
 
-const mailgun=()=>
-mg({
-  apiKey:process.env.MAILGUN_API_KEY,
-  domain:process.env.MAILGUN_DOMAIN,
-})
 
 //---------------------------------------
 //Register
@@ -53,6 +51,7 @@ const loginUserCtrl = expressAsyncHandler(async (req, res) => {
       profilePhoto: userFound?.profilePhoto,
       isAdmin: userFound?.isAdmin,
       token: generateToken(userFound?._id),
+      isVerified:userFound?.isAccountVerified
     });
   } else {
     res.status(401);
@@ -67,7 +66,7 @@ const loginUserCtrl = expressAsyncHandler(async (req, res) => {
 const fetchUserCtrl = expressAsyncHandler(async (req, res) => {
   console.log(req.headers);
   try {
-    const users = await User.find({});
+    const users = await User.find({}).populate('posts');
     res.json(users);
   } catch (error) {
     res.json(error);
@@ -111,10 +110,25 @@ const fetchUserDetailsCtrl = expressAsyncHandler(async (req, res) => {
 const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongdbId(id);
-
+  //1.find the login user
+//2.check this particular user if the login user exists in the array of viewedby
+//get the login user
+const loginUserId=req?.user?._id?.toString();
+console.log(loginUserId)
   try {
-    const myProfile = await User.findById(id).populate('posts');
-    res.json(myProfile);
+    const myProfile = await User.findById(id).populate('posts').populate('viewedBy');
+    const alreadyViewed=myProfile?.viewedBy?.find(user =>{
+      return user?._id?.toString()===loginUserId;
+    });
+    if(alreadyViewed){
+
+      res.json(myProfile);
+    }else{
+      const profile=await User.findByIdAndUpdate(myProfile?._id,{
+        $push:{viewedBy:loginUserId},
+      })
+      res.json(profile)
+    }
   } catch (error) {
     res.json(error);
   }
@@ -258,6 +272,19 @@ const unBlockUserCtrl = expressAsyncHandler(async (req, res) => {
 
 //Generate Email verification token----------------------
 const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
+  const {to,from , subject,message,resetUrl}=req.body
+
+  let transporter=nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    service:'gmail',
+    auth:{
+      user:process.env.EMAIL,
+      pass:process.env.PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false
+  }
+  })
   const loginUserId = req.user.id;
   const user = await User.findById(loginUserId);
   //console.log(user);
@@ -273,14 +300,20 @@ const generateVerificationTokenCtrl = expressAsyncHandler(async (req, res) => {
 
     const resetUrl = `if you were requested to verify your account, verify now within 10 minutes,
      otherwise ignore this message <a href="http://localhost:3000/verify-account/${verificationToken}">Click to verify Your Account</a>`;
-    const msg = {
+    const mailOptions = {
+      from: process.env.EMAIL,
       to:user?.email,
-      from: "sreekanth3265@gmail.com",
       subject: "Verify your account",
       html: resetUrl,
     };
 
-    await sendMail.send(msg);
+    transporter.sendMail(mailOptions,function(err,data){
+      if(err){
+        console.log('Error Occurs',err)
+      }else{
+        console.log('Email sent')
+      }
+    });
     res.json(resetUrl);
   } catch (error) {
     res.json(error);

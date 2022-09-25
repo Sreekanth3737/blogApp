@@ -67,7 +67,12 @@ const postSchema = new mongoose.Schema(
 //pagination
 //postSchema.plugin(mongoosePaginate);
 
-
+//populate the comments
+postSchema.virtual('comments',{
+  ref:"Comment",
+  foreignField:"post",
+  localField:"_id",
+})
 
 const Post = mongoose.model("Post", postSchema);
 

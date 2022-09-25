@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddNewCategory from "./components/Categories/AddNewCategory";
 import HomePage from "./components/homepage/HomePage";
 import Navbar from "./components/Navigation/Navbar";
-import Profile from "./components/profile/Profile";
+import Profile from "./components/Users/profile/Profile";
 import Login from "./components/Users/Login/Login";
 import Register from "./components/Users/Register/Register";
 import CategoryList from "./components/Categories/CategoryList";
@@ -18,6 +18,14 @@ import AddPost from "./components/Posts/AddPost";
 import PostsList from "./components/Posts/PostsList";
 import PostDetails from "./components/Posts/PostDetails";
 import UpdatePost from "./components/Posts/UpdatePost";
+import UpdateComment from "./components/Comments/UpdateComment";
+import UploadProfilePhoto from "./components/Users/profile/UploadProfilePhoto";
+import UpdateProfileForm from "./components/Users/profile/UpdateUserProfileForm";
+import SendEmail from "./components/Users/Emailing/SendEmail";
+import AccountVerified from "./components/Users/accountVerification/AccountVerified";
+import UsersList from "./components/Users/usersList/UsersList";
+
+
 
 function App() {
   return (
@@ -26,20 +34,23 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/login" element={<Login />} />
 
-              <Route path="/" element={<HomePage />} />
-              <Route path="/post-details/:id" element={<PostDetails />} />
- 
+            <Route path="/" element={<HomePage />} />
+            <Route path="/post-details/:id" element={<PostDetails />} />
+            {/* <Route path="/user-profile" element={<UserProfile />} /> */}
 
             <Route element={<AdminProtectRoute />}>
-              <Route path="category-list" element={<CategoryList />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="category-list" element={<CategoryList />} />
+    
+                <Route path="/update-category/:id" element={<UpdateCategory />} />
+                <Route path="add-category" element={<AddNewCategory />} />
+                <Route path='send-email' element={<SendEmail />}/>
+                <Route path='/users' element={<UsersList />}/>
 
-              <Route path="/update-category/:id" element={<UpdateCategory />} />
-              <Route path="add-category" element={<AddNewCategory />} />
             </Route>
 
             <Route
@@ -50,15 +61,63 @@ function App() {
                 </UserProtectedRoute>
               }
             />
-            <Route path="/update-post/:id" element={
-              <UserProtectedRoute>
-                <UpdatePost />
-              </UserProtectedRoute>
-            }
+            <Route
+              path="/update-post/:id"
+              element={
+                <UserProtectedRoute>
+                  <UpdatePost />
+                </UserProtectedRoute>
+              }
+            />
+            <Route
+              path="/upload-profile-photo/:id"
+              element={
+                <UserProtectedRoute>
+                  <UploadProfilePhoto />
+                </UserProtectedRoute>
+              }
             />
 
+            <Route
+              path="/update-profile/:id"
+              element={
+                <UserProtectedRoute>
+                  <UpdateProfileForm />
+                </UserProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/update-comment/:id"
+              element={
+                <UserProtectedRoute>
+                  <UpdateComment />
+                </UserProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile/:id"
+              element={
+                <UserProtectedRoute>
+                  <Profile />
+                </UserProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/verify-account/:token"
+              element={
+                <UserProtectedRoute>
+                  <AccountVerified />
+                </UserProtectedRoute>
+              }
+            />
+
+           
+
+
             {/* <Route path ='/add-post' element={<AddPost />}/> */}
-              {/* <Route path="/post-list" element={<PostsList />}/> */}
+            {/* <Route path="/post-list" element={<PostsList />}/> */}
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

@@ -14,16 +14,17 @@ import {
   Container,
 } from "reactstrap";
 import PostCard from "../Posts/PostCard";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/api_instance";
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice";
 
 function NewFeed() {
-
-
+//const [color,setColor]=useState({color:'gray'})
   //select post from store
   const post = useSelector((state) => state?.post);
+  const user=useSelector((state)=> state?.users)
+  const {userAuth}=user
   const { postLists,hasMore,pageNumber, loading, appErr, serverErr, likes, dislikes } = post;
   console.log(postLists);
   const blogsPerPage=10;
@@ -35,9 +36,14 @@ function NewFeed() {
   const dispatch = useDispatch();
   useEffect(() => {
     //load all the posts from server
-    dispatch(fetchPostsAction(""));
-  
-  }, [dispatch,likes,dislikes]);
+    if(userAuth){
+
+      dispatch(fetchPostsAction(""));
+    }else{
+      navigate('/login')
+    }
+    
+  }, [dispatch,likes,dislikes,navigate]);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -59,14 +65,16 @@ function NewFeed() {
    
    pageNumber(selectedPage)
   }
+
+  if(!userAuth) return <Navigate to='/login' />
   return (
     
     <>
    
   
   
-<section>
-    <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200"><path fill="#d3e7ee" fill-opacity="1" d="M0,128L60,144C120,160,240,192,360,192C480,192,600,160,720,144C840,128,960,128,1080,138.7C1200,149,1320,171,1380,181.3L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>
+<section >
+    {/* <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200"><path fill=" #F5FFFA" fill-opacity="1" d="M0,128L60,144C120,160,240,192,360,192C480,192,600,160,720,144C840,128,960,128,1080,138.7C1200,149,1320,171,1380,181.3L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg> */}
         <div class="py-20 bg-white min-h-screen radius-for-skewed">
           <div class="container mx-auto px-4">
             <div class="mb-16 flex flex-wrap items-center">
@@ -118,7 +126,7 @@ function NewFeed() {
                   </ul>
                 </div>
               </div>
-              <div class="w-full lg:w-3/4 px-3">
+              <div class="w-full lg:w-3/4 px-3 ">
                 {/* Post goes here */}
 
                 { 
@@ -129,21 +137,21 @@ function NewFeed() {
                   <h1 className="animate-bounce text-indigo-600 text-center">No Post Found</h1>
                 ) : (
                   postLists?.map(post => (
-                    <div key={post.id} class="flex flex-wrap bg-zinc-100 -mx-3  lg:mb-6">
-                      <div class="mb-10  w-full lg:w-1/4 px-3">
+                    <div key={post.id} class="flex flex-wrap mx-3  lg:mb-6">
+                      <div class=" m w-full lg:w-1/4 ">
                         
-                          <div>
+                          <div  >
                           <img
-                            class="w-full h-full object-cover rounded"
+                            class="w-96 h-full object-cover  rounded"
                             src={post?.image}
                             alt=""
                           />
-                          </div>
+                         </div>
                         
                         {/* Likes, views dislikes */}
-                        <div className="flex flex-row shadow-xl text-white bg-gradient-to-r from-slate-300 to-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 justify-center w-full  items-center ">
+                        <div className="flex flex-shrink py-2 bg-blue-50 ">
                           {/* Likes */}
-                          <div className="flex flex-row justify-center items-center  pl-3  pb-2 pt-2">
+                          <div className="flex flex-row justify-center items-center  px-2   pt-2">
                             {/* Togle like  */}
                             <div className="">
                               <ThumbUpIcon onClick={()=> dispatch(toggleAddLikeToPost(post?._id))} className="h-7 w-7 text-gray-400 cursor-pointer" />
@@ -153,7 +161,7 @@ function NewFeed() {
                             </div>
                           </div>
                           {/* Dislike */}
-                          <div className="flex flex-row  justify-center items-center ml-4 mr-4 pb-2 pt-1">
+                          <div className="flex flex-row  justify-center items-center px-2   pt-2">
                             <div>
                               <ThumbDownIcon onClick={()=>dispatch(toggleAddDisLikeToPost(post?._id))} className="h-7 w-7 cursor-pointer text-gray-400" />
                             </div>
@@ -164,7 +172,7 @@ function NewFeed() {
                             </div>
                           </div>
                           {/* Views */}
-                          <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
+                          <div className="flex flex-row justify-center items-center px-2   pt-2">
                             <div>
                               <EyeIcon className="h-7 w-7  text-gray-400 " />
                             </div>
@@ -174,25 +182,10 @@ function NewFeed() {
                           </div>
                         </div>
                       </div>
-                      <div class="w-full lg:w-3/4 px-3">
-                            {/* {capitalizeWord(post?.title)} */}
-                        <div class="hover:underline mt-2">
-                          <h3 class="mb-1 text-2xl text-gray-900 font-bold font-heading">
-                                {post?.title}  ({post?.category})
 
-                          </h3>
-                        </div>
-                        <div dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(post.description.substring(0,100))}}>
-                {/* {post.description.substring(0,60)}... */}
-            </div>
-                      
-                        {/* <p class="text-gray-900">{post?.description}</p> */}
-                        {/* Read more */}
-                        <Link to={`/post-details/${post?.id}`} className="text-indigo-500 hover:underline">
-                          Read More..
-                        </Link>
-                        {/* User Avatar */}
-                        <div className="my-3 flex items-center">
+
+                                  {/* User Avatar */}
+                        <div className="mx-10 flex items-center my-5">
                           <div className="flex-shrink-0">
                             <div>
                               <img
@@ -204,9 +197,9 @@ function NewFeed() {
                           </div>
                           <div className="ml-3">
                             <p className="text-sm font-medium text-gray-900">
-                              <div className="text-gray-500 hover:underline ">
+                              <Link to={`/profile/${post?.user?._id}`} className="text-gray-500 hover:underline ">
                                 {post?.user?.firstName} {post?.user?.lastName}
-                              </div>
+                              </Link>
                             </p>
                             <div className="flex space-x-1 text-sm text-gray-500">
                               <time>
@@ -216,6 +209,27 @@ function NewFeed() {
                             </div>
                           </div>
                         </div>
+
+                      <div class="w-full lg:w-3/4 px-3">
+                            {/* {capitalizeWord(post?.title)} */}
+                        <div class="hover:underline mt-2">
+                          <h3 class="mb-1 my-5 text-2xl text-indigo-600 font-bold font-heading">
+                                {post?.title}  ({post?.category})
+
+                          </h3>
+                        </div>
+                        <div className="text-zinc-500" dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(post.description.substring(0,200))}}>
+                {/* {post.description.substring(0,60)}... */}
+            </div>
+                        <Link to={`/post-details/${post?.id}`} className="text-indigo-500 hover:underline py-5">
+                          Read More..
+                        </Link>
+                      
+                        {/* <p class="text-gray-900">{post?.description}</p> */}
+                        {/* Read more */}
+                        
+
+
                         
                       </div>
                     </div>

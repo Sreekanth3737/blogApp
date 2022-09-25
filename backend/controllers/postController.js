@@ -46,16 +46,16 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 //fetch all posts-----------------------------------------
 const fetchPOstsCtrl = expressAsyncHandler(async (req, res) => {
   const hasCategory=req.query.category
-  console.log(hasCategory)
+  //console.log(hasCategory)
   try {
    
     //check if it has a category
     if(hasCategory){
 
-      const posts = await Post.find({category:hasCategory}).populate("user");
+      const posts = await Post.find({category:hasCategory}).populate("user").populate('comments').sort('-createdAt');
       res.json(posts)
     }else{
-      const posts = await Post.find({}).populate("user");
+      const posts = await Post.find({}).populate("user").populate('comments').sort('-createdAt');
       res.json(posts)
     }
 
@@ -74,7 +74,8 @@ const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
     const post = await Post.findById(id)
       .populate("user")
       .populate("disLikes")
-      .populate("likes");
+      .populate("likes")
+      .populate('comments');
     //update number of views
     await Post.findByIdAndUpdate(
       id,
@@ -97,8 +98,9 @@ const updatePostCtrl = expressAsyncHandler(async (req, res) => {
     const post = await Post.findByIdAndUpdate(
       id,
       {
-        ...req.body,
-        user: req.user?._id,
+        // ...req.body,
+        user: req?.user,
+        description:req?.body?.description
       },
       { new: true }
     );
