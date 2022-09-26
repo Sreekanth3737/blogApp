@@ -9,10 +9,9 @@ const blockUser = require("../utils/blockUser");
 
 //create post----------------------------------------------
 const createPostCtrl = expressAsyncHandler(async (req, res) => {
-  
   const { _id } = req.user;
-    //block user
-  blockUser(req.user)
+  //display message if user is blocked
+  blockUser(req.user);
   //validateMongodbID(req.body.user)
   //check for bad words
   const filter = new Filter();
@@ -27,9 +26,21 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
     );
   }
 
-   const localPath = `public/images/posts/${req.file.filename}`;
+  if(!req?.user?.isAccountVerified){
+    throw new Error('Please verify Your Account And Go...')
+  }
+
+  //prevent user if his account is a starter account
+  if (
+    req?.user?.accountType === "Starter Account" &&
+    req?.user?.postCount >= 2
+  ) {
+    throw new Error("Starter Account can only create two posts,Get more Followers");
+  }
+
+  const localPath = `public/images/posts/${req.file.filename}`;
   // //upload to cloudinary
-   const imgUploaded = await cloudinaryUploadImg(localPath);
+  const imgUploaded = await cloudinaryUploadImg(localPath);
   try {
     const post = await Post.create({
       ...req.body,
@@ -37,6 +48,16 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
       image: imgUploaded?.url,
     });
 
+    //update the user post count
+    await User.findByIdAndUpdate(
+      _id,
+      {
+        $inc: { postCount: 1 },
+      },
+      {
+        new: true,
+      }
+    );
     //remove uploaded img
     fs.unlinkSync(localPath);
     res.json(post);
@@ -47,26 +68,29 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
 
 //fetch all posts-----------------------------------------
 const fetchPOstsCtrl = expressAsyncHandler(async (req, res) => {
-  const hasCategory=req.query.category
+  const hasCategory = req.query.category;
   //console.log(hasCategory)
   try {
-   
     //check if it has a category
-    if(hasCategory){
-
-      const posts = await Post.find({category:hasCategory}).populate("user").populate('comments').sort('-createdAt');
-      res.json(posts)
-    }else{
-      const posts = await Post.find({}).populate("user").populate('comments').sort('-createdAt');
-      res.json(posts)
+    if (hasCategory) {
+      const posts = await Post.find({ category: hasCategory })
+        .populate("user")
+        .populate("comments")
+        .sort("-createdAt");
+      res.json(posts);
+    } else {
+      const posts = await Post.find({})
+        .populate("user")
+        .populate("comments")
+        .sort("-createdAt");
+      res.json(posts);
     }
 
-  //res.json({totalPages:Math.ceil(total / pageSize),posts});
+    //res.json({totalPages:Math.ceil(total / pageSize),posts});
   } catch (error) {
     res.json(error);
   }
 });
-
 
 //fetch a single post
 const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
@@ -77,7 +101,7 @@ const fetchPostCtrl = expressAsyncHandler(async (req, res) => {
       .populate("user")
       .populate("disLikes")
       .populate("likes")
-      .populate('comments');
+      .populate("comments");
     //update number of views
     await Post.findByIdAndUpdate(
       id,
@@ -102,7 +126,7 @@ const updatePostCtrl = expressAsyncHandler(async (req, res) => {
       {
         // ...req.body,
         user: req?.user,
-        description:req?.body?.description
+        description: req?.body?.description,
       },
       { new: true }
     );

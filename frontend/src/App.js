@@ -24,7 +24,9 @@ import UpdateProfileForm from "./components/Users/profile/UpdateUserProfileForm"
 import SendEmail from "./components/Users/Emailing/SendEmail";
 import AccountVerified from "./components/Users/accountVerification/AccountVerified";
 import UsersList from "./components/Users/usersList/UsersList";
-
+import UpdatePassword from "./components/Users/passwordManagement/UpdatePassword";
+import ResetPasswordForm from "./components/Users/passwordManagement/ResetPasswordForm";
+import ResetPassword from './components/Users/passwordManagement/ResetPassword'
 
 
 function App() {
@@ -113,7 +115,18 @@ function App() {
               }
             />
 
+<Route
+              path="/update-password"
+              element={
+                <UserProtectedRoute>
+                  <UpdatePassword />
+                </UserProtectedRoute>
+              }
+            />
+
            
+            <Route path="password-reset-token" element={<ResetPasswordForm />} />
+            <Route path="reset-password/:token" element={<ResetPassword />} />
 
 
             {/* <Route path ='/add-post' element={<AddPost />}/> */}

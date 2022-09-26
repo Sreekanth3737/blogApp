@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import poster from "../../../img/color.png";
 import { loginUserAction } from "../../../redux/slices/users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Spinner from "../../Spinner";
 import { toast } from "react-toastify";
@@ -53,8 +53,8 @@ const Login = () => {
       //console.log(userAuth);
       navigate("/admin-dashboard");
     }
-    if(userAuth?.isAdmin===false){
-      navigate('/')
+    if (userAuth?.isAdmin === false) {
+      navigate("/");
     }
   }, [userAuth, navigate]);
 
@@ -83,9 +83,7 @@ const Login = () => {
                       {/* Header */}
                       Login to your Account
                     </h3>
-                    <h3 className="text-red-500 text-center py-3">
-                       {appErr}
-                    </h3>
+                    <h3 className="text-red-500 text-center py-3">{appErr}</h3>
                     <div className="flex items-center pl-6 mb-3 border border-gray-50 bg-white rounded-full">
                       <span className="inline-block pr-3 border-r border-gray-50">
                         <svg
@@ -166,26 +164,34 @@ const Login = () => {
                   <span className="flex justify-center text-gray-700 font-bold mt-2">
                     OR
                   </span>
+                  
 
-                  <div className="flex items-center justify-center w-full shadow-xl  bg-blue-100 mt-2 py-1.5 font-bold rounded-full transition duration-200 hover:bg-blue-200 text-center " >
-                  <GoogleLogin
-                    
-                    onSuccess={(credentialResponse) => {
-                      var decoded = jwt_decode(credentialResponse.credential);
-                      const userData = {
-                        firstName: decoded.given_name,
-                        email: decoded.email,
-                        lastName: decoded.family_name,
-                        password: decoded.sub,
-                      };
+                  <div className="flex items-center justify-center w-full shadow-xl  bg-blue-100 mt-2 py-1.5 font-bold rounded-full transition duration-200 hover:bg-blue-200 text-center ">
+                    <GoogleLogin
+                      onSuccess={(credentialResponse) => {
+                        var decoded = jwt_decode(credentialResponse.credential);
+                        const userData = {
+                          firstName: decoded.given_name,
+                          email: decoded.email,
+                          lastName: decoded.family_name,
+                          password: decoded.sub,
+                        };
 
-                      gooleAuth(userData);
-                    }}
-                    onError={() => {
-                      console.log("Login Failed");
-                    }}
-                  />
+                        gooleAuth(userData);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
                   </div>
+                  <div className="my-3 px-3 ">
+                      <Link
+                        to="/password-reset-token"
+                        className="font-medium text-indigo-600 hover:text-indigo-500 text-center"
+                      >
+                        Forget Password ?
+                      </Link>
+                      </div>
                 </div>
               </div>
               <div className="w-full lg:w-3/5 px-4 mb-16 lg:mb-0 order-first lg:order-last">

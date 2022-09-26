@@ -353,6 +353,18 @@ const accountVerificationCtrl = expressAsyncHandler(async (req, res) => {
 const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
   //find the user by email
   const { email } = req.body;
+  let transporter=nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    service:'gmail',
+    auth:{
+      user:process.env.EMAIL,
+      pass:process.env.PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false
+  }
+  })
+  
   const user = await User.findOne({ email });
   if (!user) throw new Error("User Not Found");
 
@@ -365,22 +377,33 @@ const forgetPasswordToken = expressAsyncHandler(async (req, res) => {
     //build your message
 
     const resetUrl = `if you were requested toreset your password, Reset now within 10 minutes,
-  otherwise ignore this message <a href="http://localhost:3000/reset-password/${token}">Click to verify Your Account</a>`;
-    const msg = {
-      to: email,
-      from: "sreekanth3265@gmail.com",
-      subject: "Reset password",
-      html: resetUrl,
-    };
+  otherwise ignore this message <a href="http://localhost:3000/reset-password/${token}">Click here to reset </a>`;
+  const msg = {
+    from: process.env.EMAIL,
+    to:user?.email,
+    subject: "Reset Password",
+    html: resetUrl,
+    message:'Reset your Password'
+  };
+   
+  transporter.sendMail(msg,function(err,data){
+    if(err){
+      console.log('Error Occurs',err)
+    }else{
+      console.log('Email sent')
+    }
+  });
+  res.json({
+    msg: `A verification message is successfully sent to ${user?.email}.Reset now within 10 minutes, ${resetUrl}`,
+  });;
+} catch (error) {
+  res.json(error);
+}
+  
+  
 
-    await sendMail.send(msg);
 
-    res.json({
-      msg: `A verification message is successfully sent to ${user?.email}.Reset now within 10 minutes, ${resetUrl}`,
-    });
-  } catch (error) {
-    res.json(error);
-  }
+   
 });
 
 //password Reset---------------------------------------------

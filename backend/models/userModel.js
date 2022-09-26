@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     },
     postCount: {
       type: Number,
-      default: 0,
+      default:0,
     },
     isBlocked: {
       type: Boolean,
