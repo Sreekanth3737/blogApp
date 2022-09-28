@@ -49,18 +49,20 @@ console.log(isCreatedBy)
         </h1>
       ) : (
         <section class="py-20 2xl:py-5 bg-zinc-100 overflow-hidden">
-          <div class="container px-4 mx-auto">
+          <div class="container px-5 mt-4 mx-auto">
+          
+
             {/* Post Image */}
             <img
-              class="mb-24 w-full h-96 object-cover"
+              class="mb-24 w-full h-96 object-fit"
               src={postDetails?.image}
               alt=""
             />
             <div class="max-w-2xl mx-auto text-center">
-              <h2 class="mt-7 mb-14 text-6xl 2xl:text-7xl text-indigo-600 font-bold font-heading">
+             
+              <h2 class="mt-7  mb-14 text-6xl 2xl:text-7xl text-indigo-600 text-center font-bold font-heading">
                 {postDetails?.title}
               </h2>
-
               {/* User */}
               <div class="inline-flex pt-14 mb-14 items-center border-t border-gray-500">
                 <img

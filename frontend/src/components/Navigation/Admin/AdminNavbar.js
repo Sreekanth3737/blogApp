@@ -18,7 +18,7 @@ import { logoutAction } from "../../../redux/slices/users/usersSlice";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Create", href: "/create-post", current: false },
-  { name: "Posts", href: "/posts", current: false },
+  // { name: "Posts", href: "/posts", current: false },
   { name: "Authors", href: "/users", current: false },
   { name: "Add Category", href: "/add-category", current: false },
   { name: "Category List", href: "/category-list", current: false },
@@ -59,7 +59,8 @@ const AdminNavbar = ({isLogin}) => {
                 </div>
                 <div className="flex-shrink-0 flex items-center">
                   {/* Logo */}
-                  <BookOpenIcon className="h-10 w-10 text-indigo-600 " />
+                  <BookOpenIcon className="h-10 w-10 text-indigo-600 " /> 
+                  <p className="my-auto mx-1 font-serif text-indigo-700 text-lg">DevSchool</p>
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                   {navigation.map(item => (
@@ -68,9 +69,9 @@ const AdminNavbar = ({isLogin}) => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-indigo-900 text-white font-semibold"
-                          : "text-indigo-700 hover:bg-gray-900 hover:text-white font-semibold",
-                        "px-3 py-2 rounded-md text-sm font-medium"
+                          ? "bg-gray-300 text-indigo-700 font-serif"
+                          : "text-indigo-700 hover:bg-gray-900 hover:text-white font-serif",
+                        "px-3 py-2 rounded-md text-lg font-serif"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >

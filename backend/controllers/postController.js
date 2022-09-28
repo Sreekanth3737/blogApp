@@ -31,12 +31,12 @@ const createPostCtrl = expressAsyncHandler(async (req, res) => {
   }
 
   //prevent user if his account is a starter account
-  if (
-    req?.user?.accountType === "Starter Account" &&
-    req?.user?.postCount >= 2
-  ) {
-    throw new Error("Starter Account can only create two posts,Get more Followers");
-  }
+  // if (
+  //   req?.user?.accountType === "Starter Account" &&
+  //   req?.user?.postCount >= 1
+  // ) {
+  //   throw new Error("Starter Account can only create two posts,Get more Followers");
+  // }
 
   const localPath = `public/images/posts/${req.file.filename}`;
   // //upload to cloudinary

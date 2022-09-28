@@ -42,11 +42,17 @@ export default function CommentsList({ comments }) {
                             {comment?.createdAt}
                           </Moment>
                         </p>
+                        
                       </div>
                       <p className="text-sm text-zinc-900">
                         {comment?.description}
                       </p>
                       {/* Check if is the same user created this comment */}
+
+
+
+
+                      {/*  */}
 
                      {isLoginUser===comment?.user?._id ?  <p class="flex">
                         <Link to={`/update-comment/${comment?._id}`} class="p-3">

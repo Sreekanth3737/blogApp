@@ -27,6 +27,8 @@ import UsersList from "./components/Users/usersList/UsersList";
 import UpdatePassword from "./components/Users/passwordManagement/UpdatePassword";
 import ResetPasswordForm from "./components/Users/passwordManagement/ResetPasswordForm";
 import ResetPassword from './components/Users/passwordManagement/ResetPassword'
+import Footer from "./Footer/Footer";
+import ProfilePage from "./components/Users/profile/ProfilePage";
 
 
 function App() {
@@ -101,7 +103,7 @@ function App() {
               path="/profile/:id"
               element={
                 <UserProtectedRoute>
-                  <Profile />
+                  <ProfilePage />
                 </UserProtectedRoute>
               }
             />
@@ -129,10 +131,14 @@ function App() {
             <Route path="reset-password/:token" element={<ResetPassword />} />
 
 
+
             {/* <Route path ='/add-post' element={<AddPost />}/> */}
-            {/* <Route path="/post-list" element={<PostsList />}/> */}
+            <Route path="/post-list" element={<PostsList />}/>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
+
+
+          <Footer />
         </Router>
       </GoogleOAuthProvider>
     </>
