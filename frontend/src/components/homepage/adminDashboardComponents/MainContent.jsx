@@ -7,7 +7,10 @@ import JoinSlack from './JoinSlack';
 import ProjectRecommendation from './ProjectRecommendation';
 import Projects from './Projects';
 import Navbar from './Navbar'
+import { useSelector } from 'react-redux';
 function MainContent() {
+  const users = useSelector((state) => state?.users);
+  const { usersList, loading, appErr, serverErr,block,unBlock } = users;
   return (
     <Container>
     <Navbar />
@@ -18,20 +21,19 @@ function MainContent() {
           <Info />
         </ColumnOne1>
         <ColumnTwo1>
-          <TitleText>Your Projects</TitleText>
           <Projects />
         </ColumnTwo1>
       </SectionOne>
       <SectionTwo>
         <ColumnOne2>
           <InvoiceContainer>
-            <TitleText>Recent Invoices</TitleText>
+            <TitleText>Total Categories</TitleText>
             <Invoices />
           </InvoiceContainer>
-          <JoinSlack />
+          {/* <JoinSlack /> */}
         </ColumnOne2>
         <ColumnTwo2>
-          <TitleText>Recommended Project</TitleText>
+          <TitleText>Recommended Readings</TitleText>
           <ProjectRecommendation />
         </ColumnTwo2>
       </SectionTwo>

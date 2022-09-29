@@ -67,10 +67,10 @@ const Register = () => {
   }
 
   return (
-    <section className="relative py-20 2xl:py-40 bg-zinc-50 overflow-hidden">
-      <div className="relative container px-4 mx-auto">
+    <section className="relative py-15 2xl:py-20 bg-zinc-50 overflow-hidden ">
+      <div className="relative container px-4 mx-auto ">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-wrap items-center -mx-4">
+          <div className="flex flex-wrap items-center mx-4">
             <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
               <div className="max-w-md">
                 <span className="text-lg text-blue-400 font-bold">

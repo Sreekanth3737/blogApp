@@ -1,38 +1,48 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { fetchPostsAction } from "../../../redux/slices/posts/postSlices";
 // import AvatarImage from "../assets/avatarImage2.jpg";
 // import AvatarImage2 from "../assets/avatarImage3.jpg";
 import { cardShadow, hoverEffect, themeColor } from "./utils/color";
+import { useNavigate } from 'react-router-dom';
 
 function Projects() {
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+    useEffect(()=>{
+        dispatch(fetchPostsAction(''))
+    },[dispatch])
+    const post = useSelector((state) => state?.post);
+    const { postLists, loading, appErr, serverErr,block,unBlock } = post;
   return (
     <YourProjects>
       <Project>
-        <Avatar>
-          <img src='' alt="" />
-        </Avatar>
+        
+       
         <Detail>
-          <Title>Logo design for Bakery</Title>
-          <SubTitle>1 day remaining</SubTitle>
+          <Title>Total Number of Posts</Title>
+          <SubTitle>in the App</SubTitle>
         </Detail>
       </Project>
       <Project>
-        <Avatar>
+        {/* <Avatar>
           <img src='' alt="" />
-        </Avatar>
+        </Avatar> */}
         <Detail>
-          <Title>Personal branding project</Title>
-          <SubTitle>5 days remaining</SubTitle>
+          <Title>{postLists?.length} -Posts</Title>
+          {/* <SubTitle></SubTitle> */}
         </Detail>
       </Project>
-      <AllProjects>See all projects</AllProjects>
+      <AllProjects onClick={()=>navigate('/')} >See all projects - </AllProjects>
     </YourProjects>
   );
 }
 
 const YourProjects = styled.div`
   height: 70%;
-  background-color: white;
+  background-color: ${themeColor};
   margin: 0;
   padding: 1rem;
   border-radius: 1rem;
@@ -65,16 +75,18 @@ const Detail = styled.div`
 `;
 const Title = styled.h3`
   font-weight: 500;
+  color:white;
   @media screen and (min-width: 320px) and (max-width: 1080px) {
     font-size: 1rem;
   }
 `;
 const SubTitle = styled.h5`
   font-weight: 300;
+  color:white;
 `;
 const AllProjects = styled.h5`
   text-align: end;
-  color: ${themeColor};
+  color: white;
   cursor: pointer;
 `;
 

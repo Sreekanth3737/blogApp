@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IoStatsChart } from "react-icons/io5";
 import { themeColor, hoverEffect } from "./utils/color";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsersAction } from "../../../redux/slices/users/usersSlice";
 
 function Earnings() {
+    const dispatch=useDispatch()
+    useEffect(()=>{
+        dispatch(fetchAllUsersAction())
+    },[dispatch])
+    const users = useSelector((state) => state?.users);
+      const { usersList, loading, appErr, serverErr,block,unBlock } = users;
   return (
     <EarningsCard>
       <CardContent>
@@ -11,7 +19,7 @@ function Earnings() {
           <IoStatsChart />
         </Chart>
         <EarningsText>Total Users</EarningsText>
-        <Earning>7,890</Earning>
+        <Earning>{usersList?.length}</Earning>
         <EarningsIncrease>+ 10% since last month</EarningsIncrease>
       </CardContent>
     </EarningsCard>

@@ -49,10 +49,10 @@ function Sidebar({isLogin}) {
             <h3 onClick={()=>navigate('/')}>All Posts</h3>
           </Link>
         </Links>
-        <button onClick={()=>dispatch(logoutAction())}>
+        <Button onClick={()=>dispatch(logoutAction())}>
 
         <Badge  content='logout'/>
-        </button>
+        </Button>
         
       </LinksContainer>
     </Container>
@@ -125,7 +125,11 @@ const Link = styled.li`
     margin-top: 3%;
   }
 `;
+const Button=styled.button`
+margin-top:30%;
+margin-left:5%
 
+`
 
 
 export default Sidebar

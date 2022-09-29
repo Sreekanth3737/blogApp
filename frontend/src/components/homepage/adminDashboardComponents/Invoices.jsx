@@ -1,36 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { fetchCategoriesAction } from "../../../redux/slices/category/categorySlice";
 import Badge from "./Badge";
-// import AvatarImage from "../assets/avatarImage5.jpg";
-// import AvatarImage2 from "../assets/avatarImage6.jpg";
 import { cardShadow, hoverEffect } from "./utils/color";
 
-function Invoices() {
+function Invoices(user) {
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    dispatch(fetchCategoriesAction())
+  },[dispatch])
+  const category=useSelector((state)=>state?.category)
+  const{categoryList}=category
+  
   return (
     <InvoicesContainer>
       <CardContent>
         <Invoice>
           <Info>
-            <Avatar>
+            {/* <Avatar>
               <img src='' alt="" />
-            </Avatar>
+            </Avatar> */}
             <TextContainer>
-              <Title>Alexander Williams</Title>
+              <Title>Total categories</Title>
               <SubTitle>ABC Holdings</SubTitle>
             </TextContainer>
           </Info>
           <Container>
-            <Badge content="Paid" paid />
-            <Price>$ 1,200.87</Price>
+            <Badge content="Categories" paid />
+            <Price>- {categoryList?.length}</Price>
           </Container>
         </Invoice>
         <Invoice>
           <Info>
-            <Avatar>
+            {/* <Avatar>
               <img src='' alt="" />
-            </Avatar>
+            </Avatar> */}
             <TextContainer>
-              <Title>John Philips</Title>
+              <Title>Blogs</Title>
               <SubTitle>Inchor Associates</SubTitle>
             </TextContainer>
           </Info>
@@ -49,7 +56,7 @@ const InvoicesContainer = styled.div`
   border-radius: 1rem;
   margin-top: 2rem;
   background-color: white;
-  height: 140%;
+  height: 215%;
   box-shadow: ${cardShadow};
   transition: 0.4s ease-in-out;
   &:hover {
@@ -116,6 +123,9 @@ const Container = styled.div`
   }
 `;
 
-const Price = styled.div``;
+const Price = styled.div`
+color:blue
+font:bold
+`;
 
 export default Invoices;

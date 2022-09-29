@@ -14,7 +14,7 @@ function ProjectRecommendation() {
               <img src='' alt="" />
             </Avatar>
             <Info>
-              <InfoName>Thomas Martin</InfoName>
+              <InfoName>Tech Magazines</InfoName>
               <InfoUpdate>Updated 10m ago</InfoUpdate>
             </Info>
           </InfoContainer>

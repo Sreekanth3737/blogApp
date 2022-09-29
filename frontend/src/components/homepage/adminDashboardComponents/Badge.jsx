@@ -40,7 +40,7 @@ const Div = styled.span`
     paid &&
     `
         background-color:#70e00041;
-        color:#70e000;
+        color:black;
     `}
 
 ${({ late }) =>
