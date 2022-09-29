@@ -20,7 +20,8 @@ const {loading,appErr,serverErr,token}=account
   return (
     <>
       {isAdmin ? (
-        <AdminNavbar isLogin={userAuth} />
+        <AdminNavbar isLogin={userAuth} /> 
+        
       ) : userAuth ? (
         <PrivateNavbar isLogin={userAuth} />
       ) : (
