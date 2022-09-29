@@ -11,7 +11,7 @@ function ProjectRecommendation() {
         <Detail>
           <InfoContainer>
             <Avatar>
-              <img src='' alt="" />
+              <img src="" alt="" />
             </Avatar>
             <Info>
               <InfoName>Tech Magazines</InfoName>

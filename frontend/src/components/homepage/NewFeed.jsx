@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPostsAction,
@@ -17,6 +19,10 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/api_instance";
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice";
+
+
+
+
 
 function NewFeed() {
   //const [color,setColor]=useState({color:'gray'})
@@ -72,11 +78,25 @@ function NewFeed() {
   if (!userAuth) return <Navigate to="/login" />;
   return (
     <>
+     
       <section>
         {/* <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200"><path fill=" #F5FFFA" fill-opacity="1" d="M0,128L60,144C120,160,240,192,360,192C480,192,600,160,720,144C840,128,960,128,1080,138.7C1200,149,1320,171,1380,181.3L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg> */}
         <div class=" bg-white min-h-screen radius-for-skewed">
           <div class="container mx-auto mt-4 ">
             
+          <div className="flex justify-center  mt-3 sticky top-20  z-50">
+            <div className="flex border border-purple-200 rounded">
+                <input
+                    type="text"
+                    className="block w-full px-4 py-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    placeholder="Search..."
+                />
+                <button className="px-4 text-white bg-blue-600 border-l rounded ">
+                    Search
+                </button>
+            </div>
+        </div>
+
             <div class="flex flex-wrap -mx-3">
               <div class="mb-8 lg:mb-0 w-full lg:w-1/4 px-3 ">
                 <div class="mt-5  bg-blue-50 shadow rounded  pr-7  items-center md:fixed">

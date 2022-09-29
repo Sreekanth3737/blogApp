@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllUsersAction } from "../../../redux/slices/users/usersSlice";
 
 function Earnings() {
-    const dispatch=useDispatch()
-    useEffect(()=>{
-        dispatch(fetchAllUsersAction())
-    },[dispatch])
-    const users = useSelector((state) => state?.users);
-      const { usersList, loading, appErr, serverErr,block,unBlock } = users;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllUsersAction());
+  }, [dispatch]);
+  const users = useSelector((state) => state?.users);
+  const { usersList, loading, appErr, serverErr, block, unBlock } = users;
   return (
     <EarningsCard>
       <CardContent>
