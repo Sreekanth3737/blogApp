@@ -25,7 +25,7 @@ import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice
 
 
 function NewFeed() {
-  //const [color,setColor]=useState({color:'gray'})
+  const [search,setSearch]=useState('')
   //select post from store
   const post = useSelector((state) => state?.post);
   const user = useSelector((state) => state?.users);
@@ -85,8 +85,10 @@ function NewFeed() {
           <div class="container mx-auto mt-4 ">
             
           <div className="flex justify-center  mt-3 sticky top-20  z-50">
-            <div className="flex border border-purple-200 rounded">
-                <input
+            <div className="flex border border-gray-300 rounded">
+                <input onChange={(event)=>{
+                  setSearch(event.target.value)
+                }}
                     type="text"
                     className="block w-full px-4 py-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Search..."
@@ -156,7 +158,13 @@ function NewFeed() {
                      <h1>Err</h1>
                    ) : postLists?.length <= 0 ? (
                      <h1 className="animate-bounce text-indigo-600 text-center">No Post Found</h1>
-                   ) : (postLists?.map((post) => (
+                   ) : (postLists?.filter((val)=>{
+                    if(search===''){
+                      return val
+                    }else if(val.title.toLowerCase().includes(search.toLocaleLowerCase())){
+                      return val
+                    }
+                   })?.map((post) => (
                   <div className="w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
                     
                     <div className="my-3 flex">
