@@ -7,18 +7,15 @@ import {
   toggleAddLikeToPost,
   toggleAddDisLikeToPost,
 } from "../../redux/slices/posts/postSlices";
-import { Button, Card, CardBody, CardImg, CardText } from "reactstrap";
 import * as DOMPurify from "dompurify";
 
 import DateFormatter from "../../utils/DateFormatter";
 import ReactPaginate from "react-paginate";
 import LoadingComponent from "../../utils/LoadingComponent";
-import { Row, Col, Container } from "reactstrap";
-import PostCard from "../Posts/PostCard";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/api_instance";
 import { EyeIcon, ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import { fetchCategoriesAction } from "../../redux/slices/category/categorySlice";
+import LazyLoad from 'react-lazyload'
 
 function NewFeed() {
   const [search, setSearch] = useState("");
@@ -56,7 +53,8 @@ function NewFeed() {
   useEffect(() => {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
-  //const refresh=(postLists)=>{}
+
+  
 
   const category = useSelector((state) => state?.category);
   //console.log(category)
@@ -78,7 +76,8 @@ function NewFeed() {
         {/* <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200"><path fill=" #F5FFFA" fill-opacity="1" d="M0,128L60,144C120,160,240,192,360,192C480,192,600,160,720,144C840,128,960,128,1080,138.7C1200,149,1320,171,1380,181.3L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg> */}
         <div class=" bg-white min-h-screen radius-for-skewed">
           <div class="container mx-auto mt-4 ">
-            <div className="flex justify-center  mt-3 sticky top-20  z-50">
+            
+            <div className="flex justify-center  sticky top-20  z-50  ">
               <div className="flex border border-gray-300 rounded">
                 <input
                   onChange={(event) => {
@@ -93,6 +92,7 @@ function NewFeed() {
                 </button>
               </div>
             </div>
+           
 
             <div class="flex flex-wrap -mx-3">
               <div class="mb-8 lg:mb-0 w-full lg:w-1/4 px-3 ">
@@ -140,7 +140,7 @@ function NewFeed() {
 
             {/* <div className="flex grid grid-cols-2"> */}
 
-            <div className="w-full  py-[10rem]-sticky  my-3  bg-white">
+            <div className="w-full  py-[10rem]-sticky  my-1  bg-white">
               <div className="max-w-[700px]  mx-auto grid md:grid-cols-1 gap-8">
                 {appErr || serverErr ? (
                   <h1>Err</h1>
@@ -180,11 +180,19 @@ function NewFeed() {
                           </p>
                         </div>
 
+                        {/* <LazyImage 
+        placeholder={'http://example.com/placeholder.png'}
+        uri={'http://example.com/src.png'}
+        render={(src, style) => <img className='w-full h-50 mx-auto  bg-white object-cover' src={post?.image} style={style} />}
+    /> */}
                         <img
-                          className="w-full h-50 mx-auto  bg-white object-cover"
+                          className=" w-full h-50 mx-auto  bg-white object-cover " 
                           src={post?.image}
+                         
                           alt="/"
                         />
+                        
+                        
 
                         <div className="flex  py-2 bg-white shadow-sm w-full item-center">
                           {/* Likes */}

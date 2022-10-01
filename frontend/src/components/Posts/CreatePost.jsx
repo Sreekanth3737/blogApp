@@ -2,16 +2,12 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 import * as Yup from "yup";
-import { createpostAction, fetchPostsAction } from "../../redux/slices/posts/postSlices";
+import { createpostAction } from "../../redux/slices/posts/postSlices";
 import CategoryDropDown from "../Categories/CategoryDropDown";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import JoditEditor from "jodit-react";
 import { useMemo, useRef } from "react";
-import React, {Component, PropTypes} from 'react';
-import RichTextEditor from 'react-rte';
-import NewFeed from "../homepage/NewFeed";
-import { useEffect } from "react";
 
 //form schema
 const formSchema = Yup.object().shape({
