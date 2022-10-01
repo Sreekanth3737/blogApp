@@ -198,7 +198,18 @@ function NewFeed() {
                           {/* Likes */}
                           <div className="flex flex-row justify-center items-center  px-2   pt-2">
                             {/* Togle like  */}
+                            {post?.likes?.includes(userAuth?._id) ? (
+
                             <div className="">
+                              <ThumbUpIcon
+                                onClick={() =>
+                                  dispatch(toggleAddLikeToPost(post?._id))
+                                }
+                                className="h-7 w-7 text-blue-600 cursor-pointer"
+                              />
+                            </div>
+                            ):(
+                              <div className="">
                               <ThumbUpIcon
                                 onClick={() =>
                                   dispatch(toggleAddLikeToPost(post?._id))
@@ -206,13 +217,25 @@ function NewFeed() {
                                 className="h-7 w-7 text-gray-400 cursor-pointer"
                               />
                             </div>
+                            )}
                             <div className="pl-2 text-gray-900">
                               {post?.likes?.length ? post?.likes?.length : 0}
                             </div>
                           </div>
                           {/* Dislike */}
                           <div className="flex flex-row  justify-center items-center px-2   pt-2">
+                            {post?.disLikes?.includes(userAuth?._id) ? (
+
                             <div>
+                              <ThumbDownIcon
+                                onClick={() =>
+                                  dispatch(toggleAddDisLikeToPost(post?._id))
+                                }
+                                className="h-7 w-7 cursor-pointer text-gray-900"
+                              />
+                            </div>
+                            ):(
+                              <div>
                               <ThumbDownIcon
                                 onClick={() =>
                                   dispatch(toggleAddDisLikeToPost(post?._id))
@@ -220,6 +243,7 @@ function NewFeed() {
                                 className="h-7 w-7 cursor-pointer text-gray-400"
                               />
                             </div>
+                            )}
                             <div className="pl-2 text-gray-900">
                               {post?.disLikes?.length
                                 ? post?.disLikes?.length
@@ -229,7 +253,7 @@ function NewFeed() {
                           {/* Views */}
                           <div className="flex flex-row justify-center items-center px-2   pt-2">
                             <div>
-                              <EyeIcon className="h-7 w-7  text-gray-400 " />
+                              <EyeIcon className="h-7 w-7  text-gray-500 " />
                             </div>
                             <div className="pl-2 text-gray-900">
                               {post?.numViews}

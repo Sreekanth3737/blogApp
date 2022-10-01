@@ -41,8 +41,8 @@ const PublicNavbar = () => {
                 </div>
                 <div className="flex-shrink-0 flex items-center">
                   {/* Logo */}
-                  <BookOpenIcon className="h-10 w-10 text-indigo-600 " />
-                  <p className="my-auto mx-1 font-serif text-indigo-700 text-lg">DevSchool</p>
+                  <BookOpenIcon className="h-10 w-10 text-indigo-900 " />
+                  <p className="my-auto mx-1 font-serif text-indigo-900 text-lg">DevSchool</p>
 
                 </div>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
@@ -52,9 +52,9 @@ const PublicNavbar = () => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-300 text-indigo-700 font-serif"
-                          : "text-indigo-700 hover:bg-gray-900 hover:text-white font-serif",
-                        "px-3 py-2 rounded-md text-sm font-serif"
+                          ? "bg-gray-200   text-indigo-900 font-serif"
+                          : "text-indigo-900 hover:bg-gray-900 hover:text-white font-serif",
+                        "px-3 py-2 rounded-md text-xl font-serif"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
@@ -68,7 +68,7 @@ const PublicNavbar = () => {
                   <Link
                     to="/login"
                     type="button"
-                    className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
+                    className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
                   >
                     <LoginIcon
                       className="-ml-1 mr-2 h-5 w-5"
