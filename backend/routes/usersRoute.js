@@ -18,6 +18,7 @@ const {
   forgetPasswordToken,
   passwordResetCtrl,
   profilePhotoUploadCtrl,
+  fetchOnlineFriendsCtrl
 } = require("../controllers/userController");
 const authMiddleware = require("../middlewares/auth/authMiddleware");
 const {
@@ -61,5 +62,6 @@ router.put("/", authMiddleware, updateUserCtrl);
 
 router.delete("/:id", deleteUserCtrl);
 router.get("/:id", fetchUserDetailsCtrl);
+router.get('/onlile-friends/:id',fetchOnlineFriendsCtrl)
 
 module.exports = router;

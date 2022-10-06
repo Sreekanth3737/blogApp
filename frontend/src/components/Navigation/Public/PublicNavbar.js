@@ -52,9 +52,9 @@ const PublicNavbar = () => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-200   text-indigo-900 font-serif"
-                          : "text-indigo-900 hover:bg-gray-900 hover:text-white font-serif",
-                        "px-3 py-2 rounded-md text-xl font-serif"
+                          ? "bg-gray-200   text-gray-900 font-serif"
+                          : "text-gray-900 hover:bg-gray-900 hover:text-white font-serif",
+                        "px-3 py-2 rounded-md text-xl font-serif no-underline"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >

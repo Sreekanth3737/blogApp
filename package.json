@@ -28,6 +28,7 @@
     "multer-sharp": "^0.6.2",
     "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
-    "sharp": "^0.30.7"
+    "sharp": "^0.30.7",
+    "socket.io": "^4.5.2"
   }
 }

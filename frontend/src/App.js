@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import AddNewCategory from "./components/Categories/AddNewCategory";
 import HomePage from "./components/homepage/HomePage";
 import Navbar from "./components/Navigation/Navbar";
@@ -29,9 +29,14 @@ import ResetPasswordForm from "./components/Users/passwordManagement/ResetPasswo
 import ResetPassword from './components/Users/passwordManagement/ResetPassword'
 import Footer from "./Footer/Footer";
 import ProfilePage from "./components/Users/profile/ProfilePage";
+import { useSelector } from "react-redux";
+import { Messenger } from "./Pages/Messenger";
 
 
 function App() {
+  const user = useSelector((state) => state?.users);
+  const { userAuth } = user;
+
   return (
     <>
       <GoogleOAuthProvider clientId="507279023832-b05kjqsa5j15djvs8f7ckgpb5d7ids2q.apps.googleusercontent.com">
@@ -129,6 +134,9 @@ function App() {
            
             <Route path="password-reset-token" element={<ResetPasswordForm />} />
             <Route path="reset-password/:token" element={<ResetPassword />} />
+
+
+            <Route path="/messenger" element={userAuth ? <Messenger /> : <Navigate to='../../login' />} />
 
 
 

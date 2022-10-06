@@ -7,6 +7,7 @@ import {
   MenuIcon,
   XIcon,
   BookOpenIcon,
+  ChatIcon,
 } from "@heroicons/react/outline";
 import { PlusIcon, LogoutIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,9 +67,9 @@ const navigate=useNavigate()
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-200  text-indigo-900 font-serif"
-                          : "text-indigo-900 hover:bg-gray-900 hover:text-white font-serif",
-                        "px-3 py-2 rounded-md text-xl font-serif"
+                          ? "bg-gray-200  text-gray-900 font-serif"
+                          : "text-gray-900 hover:bg-gray-900 hover:text-white font-serif",
+                        "px-3 py-2 rounded-md text-xl font-serif  no-underline"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
@@ -79,7 +80,7 @@ const navigate=useNavigate()
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0 ">
-                  <Link
+                  {/* <Link
                     to="/create-post"
                     className="pr-3  relative inline-flex items-center mr-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
                   >
@@ -88,7 +89,20 @@ const navigate=useNavigate()
                       aria-hidden="true"
                     />
                     <span>New Post</span>
+                  </Link> */}
+                  
+                  <Link
+                    to="/messenger"
+                    type="button"
+                    className="relative mr-4 inline-flex items-center px-4 py-2 "
+                  >
+                    <ChatIcon
+                      className="-ml-1 mr-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    
                   </Link>
+
 
                   <button
                   onClick={()=>dispatch(logoutAction())}

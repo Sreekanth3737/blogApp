@@ -56,7 +56,9 @@ const loginUserCtrl = expressAsyncHandler(async (req, res) => {
       profilePhoto: userFound?.profilePhoto,
       isAdmin: userFound?.isAdmin,
       token: generateToken(userFound?._id),
-      isVerified:userFound?.isAccountVerified
+      isVerified:userFound?.isAccountVerified,
+      status:userFound?.status,
+      following:userFound?.following
     });
   } else {
     res.status(401);
@@ -69,7 +71,8 @@ const loginUserCtrl = expressAsyncHandler(async (req, res) => {
 //----------------------------------
 
 const fetchUserCtrl = expressAsyncHandler(async (req, res) => {
-  console.log(req.headers);
+  console.log('all userser++++++++++++++++++++');
+ 
   try {
     const users = await User.find({}).populate('posts');
     res.json(users);
@@ -99,6 +102,7 @@ const deleteUserCtrl = expressAsyncHandler(async (req, res) => {
 //---------------------------------
 
 const fetchUserDetailsCtrl = expressAsyncHandler(async (req, res) => {
+  console.log('one user+++++++++++++++++++');
   const { id } = req.params;
   validateMongdbId(id);
   try {
@@ -108,6 +112,31 @@ const fetchUserDetailsCtrl = expressAsyncHandler(async (req, res) => {
     res.json(error);
   }
 });
+
+
+//get online friends
+//--------------------------------------------------
+const fetchOnlineFriendsCtrl=expressAsyncHandler(async(req,res)=>{
+  const {id}=req.params
+  try {
+    const user=await User.findById(id)
+    console.log(user.following+'folo+++++++++++++++++++');
+    const friends=await Promise.all(
+      user.following.map((friendId)=>{
+        //console.log(friendId);
+        return User.findById(friendId)
+      })
+    );
+    let friendList=[]
+    friends.map((friend)=>{
+      const { _id, firstName, lastName,profilePhoto } = friend;
+      friendList.push({_id,firstName,lastName,profilePhoto})
+    });
+    res.status(200).json(friendList)
+  } catch (error) {
+    res.status(500).json(err)
+  }
+})
 
 //-----------------------
 //User profile
@@ -460,5 +489,6 @@ module.exports = {
   accountVerificationCtrl,
   forgetPasswordToken,
   passwordResetCtrl,
-  profilePhotoUploadCtrl
+  profilePhotoUploadCtrl,
+  fetchOnlineFriendsCtrl
 };

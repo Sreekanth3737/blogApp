@@ -8,8 +8,10 @@ import {
   BellIcon,
   MenuIcon,
   XIcon,
+
   BookOpenIcon,
   LogoutIcon,
+  ChatIcon
 } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { logoutAction } from "../../../redux/slices/users/usersSlice";
@@ -18,7 +20,7 @@ import { logoutAction } from "../../../redux/slices/users/usersSlice";
 const navigation = [
   { name: "Home", href: "/admin-dashboard", current: true },
   { name: "Create", href: "/create-post", current: false },
-  // { name: "Posts", href: "/posts", current: false },
+  // { name: "Chat", href: "/messenger", current: false },
   { name: "Authors", href: "/users", current: false },
   { name: "Add Category", href: "/add-category", current: false },
   { name: "Category List", href: "/category-list", current: false },
@@ -69,9 +71,9 @@ const AdminNavbar = ({isLogin}) => {
                       to={item.href}
                       className={classNames(
                         item.current
-                          ? "bg-gray-200 text-indigo-900  font-serif"
-                          : "text-indigo-900 hover:bg-gray-900 hover:text-white font-serif",
-                        "px-3 py-2 rounded-md text-xl font-serif"
+                          ? "bg-gray-200 text-gray-900  font-serif"
+                          : "text-gray-900 hover:bg-gray-900 hover:text-white font-serif",
+                        "px-3 py-2 rounded-md text-xl font-serif no-underline "
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
@@ -83,7 +85,7 @@ const AdminNavbar = ({isLogin}) => {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   {/* New post */}
-                  <Link
+                  {/* <Link
                     to="/create-post"
                     type="button"
                     className="relative mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
@@ -93,6 +95,18 @@ const AdminNavbar = ({isLogin}) => {
                       aria-hidden="true"
                     />
                     <span>New Post</span>
+                  </Link> */}
+
+                  <Link
+                    to="/messenger"
+                    type="button"
+                    className="relative mr-4 inline-flex items-center px-4 py-2 "
+                  >
+                    <ChatIcon
+                      className="-ml-1 mr-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    
                   </Link>
                   {/* Logout */}
                   {/* <button 
