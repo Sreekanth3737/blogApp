@@ -470,7 +470,16 @@ const profilePhotoUploadCtrl=expressAsyncHandler(async(req,res)=>{
 //remove the saved images
 fs.unlinkSync(localPath)
   res.json(imgUploaded)
-})
+});
+
+const searchUser=async(req,res)=>{
+  const { search } = req.query;
+  const user=await User.find({
+    firstName:{$regex:search,$options:"i"},
+
+  }).select('firstName profilePhoto _id email lastName');
+  res.status(200).json(user)
+}
 
 module.exports = {
   userRegister,
@@ -490,5 +499,6 @@ module.exports = {
   forgetPasswordToken,
   passwordResetCtrl,
   profilePhotoUploadCtrl,
-  fetchOnlineFriendsCtrl
+  fetchOnlineFriendsCtrl,
+  searchUser
 };

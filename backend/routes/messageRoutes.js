@@ -1,9 +1,9 @@
 const express=require('express');
 const router=express.Router()
  const authMiddleware = require("../middlewares/auth/authMiddleware");
-const {addMessage,getMessages}=require('../controllers/messageController')
+const {allMessages,sendMessage}=require('../controllers/messageController')
 
- router.post('/',addMessage)
- router.get('/:chatId',getMessages)
+ router.post('/',sendMessage)
+ router.get('/:chatId',allMessages)
 
  module.exports=router

@@ -3,13 +3,23 @@ import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import Moment from "react-moment";
 import { deleteCommentAction } from "../../redux/slices/comments/commentSlices";
 import { useDispatch, useSelector } from "react-redux";
+import EditComment from "../Modals/EditComment";
+import { useState } from "react";
 
 export default function CommentsList({ comments }) {
     //console.log(comments);
    const user= useSelector(state=>state?.users)
    const {userAuth}=user
    const isLoginUser=userAuth?._id
-   console.log(isLoginUser);
+   //console.log(isLoginUser);
+   const [open, setOpen] = useState(false)
+  const [editId,setEditId]=useState("")
+  const [editValue,setEditValue]=useState("")
+  const editComment=(id,description)=>{
+    setOpen(true)
+    setEditId(id)
+    setEditValue(description)
+  }
     const dispatch=useDispatch()
   return (
     <div>
@@ -55,9 +65,16 @@ export default function CommentsList({ comments }) {
                       {/*  */}
 
                      {isLoginUser===comment?.user?._id ?  <p class="flex">
-                        <Link to={`/update-comment/${comment?._id}`} class="p-3">
+                        {/* <Link to={`/update-comment/${comment?._id}`} class="p-3">
                           <PencilAltIcon class="h-5 mt-3 text-indigo-500" />
-                        </Link>
+                        </Link> */}
+                     
+                        <button
+                            onClick={()=>editComment(comment?._id,comment?.description)}
+                              class="p-3">
+                            <PencilAltIcon class="h-5 mt-3 text-indigo-700" />
+                          </button>
+
                         <button onClick={()=>dispatch(deleteCommentAction(comment?._id))} class="ml-3">
                           <TrashIcon class="h-5 mt-3 text-red-600" />
                         </button>
@@ -70,6 +87,10 @@ export default function CommentsList({ comments }) {
           )}
         </>
       </ul>
+      <div>
+      <EditComment open={open} setOpen={setOpen} commentId={editId} value={editValue} />
+
+      </div>
     </div>
   );
 }

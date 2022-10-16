@@ -1,11 +1,15 @@
 const express=require('express');
 const router=express.Router()
  const authMiddleware = require("../middlewares/auth/authMiddleware");
-const {createChat,findChat,userChats}=require('../controllers/chatController')
+const {getChat,getChats,createGroup,renameGroup,removeFromGroup,addUserToGroup}=require('../controllers/chatController')
 
- router.post('/',createChat)
- router.get('/:userId',userChats)
- router.get('/find/:firstId/:secondId',findChat)
+router.route("/").post(getChat).get(getChats);
+router.route("/createGroup").post(createGroup);
+router.route("/renameGroup").patch(renameGroup);
+router.route("/removeFromGroup").patch(removeFromGroup);
+router.route("/addUserToGroup").patch(addUserToGroup);
+
+
 
 
 

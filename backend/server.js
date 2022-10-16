@@ -9,7 +9,7 @@ const commentRoutes=require('./routes/commentRoute')
 const sendEmailRoutes=require('./routes/sendEmailRoute')
 const chatRoutes=require('./routes/chatRoutes')
 const messageRoutes=require('./routes/messageRoutes')
-
+const authMiddleware=require('./middlewares/auth/authMiddleware')
 const cors=require('cors')
 const port=process.env.PORT || 7000;
 
@@ -34,9 +34,9 @@ app.use('/api/comments',commentRoutes)
 //send email
 app.use('/api/email',sendEmailRoutes)
 //send message (socket io)
-app.use('/api/chat',chatRoutes)
+app.use('/api/chat',authMiddleware,chatRoutes)
 //message route
-app.use('/api/message',messageRoutes)
+app.use('/api/message',authMiddleware,messageRoutes)
 
 
 //err handler
@@ -48,46 +48,44 @@ app.use(errorHandler)
  
 
  //socket io
-//  const io=require('socket.io')(server,{
-//     pingTimeout:60000,
-//     cors:{
-//         origin:"http://localhost:3000",
+ const io=require('socket.io')(server,{
+    pingTimeout:60000,
+    cors:{
+        origin:"*",
        
-//     }
-//  })
+    }
+ })
 
-//  let activeUsers=[]
- 
-//  io.on('connection',(socket)=>{
-//     //add new user
-//     socket.on("new-user-add", (newUserId) => {
-//         // if user is not added previously
-//         if (!activeUsers.some((user) => user.userId === newUserId)) {
-//           activeUsers.push({ userId: newUserId, socketId: socket.id });
-//           console.log("New User Connected", activeUsers);
-//         }
-//         // send all active users to new user
-//         io.emit("get-users", activeUsers);
-//       });
-    
-//       socket.on("disconnect", () => {
-//         // remove user from active users
-//         activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
-//         console.log("User Disconnected", activeUsers);
-//         // send all active users to all users
-//         io.emit("get-users", activeUsers);
-//       });
-    
-//       // send message to a specific user
-//   socket.on("send-message", (data) => {
-//     const { receiverId } = data;
-//     const user = activeUsers.find((user) => user.userId === receiverId);
-//     console.log("Sending from socket to :", receiverId)
-//     console.log("Data: ", data)
-//     if (user) {
-//       io.to(user.socketId).emit("recieve-message", data);
-//     }
-//   });
-    
-//  })
+ io.on("connection", (socket) => {
+    //connected to correct id
+    socket.on("setup", (userData) => {
+      socket.join(userData._id);
+  
+      socket.emit("connected");
+    });
+  
+    socket.on("join-chat", (room) => {
+      socket.join(room);
+    });
+  
+    socket.on("typing", (room) => socket.in(room).emit("typing"));
+    socket.on("stop-typing", (room) => socket.in(room).emit("stop-typing"));
+  
+    socket.on("new-message", (newMessageReceived) => {
+      let chat = newMessageReceived.chat;
+  
+      if (!chat.users) return console.log(`chat.users not defined`);
+  
+      chat.users.forEach((user) => {
+        if (user._id === newMessageReceived.sender._id) return;
+  
+        socket.in(user._id).emit("message-received", newMessageReceived);
+      });
+    });
+  
+    socket.off("setup", () => {
+      socket.leave(userData._id);
+    });
+  });
+  
 

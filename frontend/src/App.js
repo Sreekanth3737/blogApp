@@ -30,7 +30,9 @@ import ResetPassword from './components/Users/passwordManagement/ResetPassword'
 import Footer from "./Footer/Footer";
 import ProfilePage from "./components/Users/profile/ProfilePage";
 import { useSelector } from "react-redux";
-import { Messenger } from "./Pages/Messenger";
+import  Messenger  from "./Pages/Messenger";
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -145,7 +147,7 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
 
-
+          <ToastContainer position="top-center" />
           {/* <Footer /> */}
         </Router>
       </GoogleOAuthProvider>

@@ -18,7 +18,7 @@ const {
   forgetPasswordToken,
   passwordResetCtrl,
   profilePhotoUploadCtrl,
-  fetchOnlineFriendsCtrl
+  fetchOnlineFriendsCtrl,searchUser
 } = require("../controllers/userController");
 const authMiddleware = require("../middlewares/auth/authMiddleware");
 const {
@@ -38,6 +38,7 @@ router.put(
   profilePhotoUploadCtrl
 );
 router.get("/", authMiddleware, fetchUserCtrl);
+router.route('/search-users').get(authMiddleware,searchUser)
 //password reset
 router.post("/forget-password-token", forgetPasswordToken);
 router.put("/reset-password", passwordResetCtrl);
