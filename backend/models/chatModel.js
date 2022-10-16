@@ -26,9 +26,7 @@ const chatScheema=new mongoose.Schema({
    
    
    
-    members:{
-    type:Array,
-   } ,
+   
   
 },{
     timestamps:true,

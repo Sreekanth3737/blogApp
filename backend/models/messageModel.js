@@ -14,19 +14,9 @@ const messageScheema=new mongoose.Schema({
         type: String,
         trim: true,
       },
-      
-    
-   chatId:{
-    type:String,
-   } ,
-   senderId:{
-    type:String
-   },
-   
 
-   text:{
-    type:String
-   },
+    
+   
    
 },{
     timestamps:true,

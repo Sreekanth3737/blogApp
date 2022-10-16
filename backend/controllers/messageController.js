@@ -1,6 +1,6 @@
 const Message=require('../models/messageModel')
-
-
+const User=require('../models/userModel')
+const Chat=require('../models/chatModel')
 const sendMessage=async(req,res)=>{
     const{message,chatId}=req.body
 

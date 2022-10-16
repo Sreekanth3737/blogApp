@@ -49,11 +49,11 @@ const ProfileModal = ({ user, children }) => {
             <Image
               borderRadius="full"
               boxSize="150px"
-              src={user.profilePhoto}
-              alt={user.firstName}
+              src={user?.profilePhoto}
+              alt={user?.firstName}
             />
             <Text fontSize={{ base: "28px", md: "30px" }} fontFamily="Poppins">
-              Email: {user.email}
+              Email: {user?.email}
             </Text>
           </ModalBody>
           <ModalFooter>
